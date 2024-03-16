@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Analyzer</title>
+</head>
+<body>
+    <h1>LinkedIn Analyzer</h1>
+    
+    <!-- LinkedIn Profile Form -->
+    <div>
+        <input type="text" id="profile_url" placeholder="Enter LinkedIn profile URL"/>
+        <button onclick="analyzeProfile()">Analyze Profile</button>
+    </div>
+    <div id="profileAnalysisResult"></div> <!-- Placeholder for profile analysis result -->
+
+    <!-- Resume Upload Form -->
+    <div>
+        <input type="file" id="resume"/>
+        <button onclick="uploadAndAnalyzeResume()">Analyze Resume</button>
+    </div>
+    <div id="resumeAnalysisResult"></div> <!-- Placeholder for resume analysis result -->
+
+    <!-- Job URL Form -->
+    <div>
+        <input type="text" id="job_url" placeholder="Enter LinkedIn job URL"/>
+        <button onclick="analyzeJob()">Analyze Job</button>
+    </div>
+    <div id="jobAnalysisResult"></div> <!-- Placeholder for job analysis result -->
+
+    <!-- Match Button -->
+    <button onclick="matchProfiles()">MATCH</button>
+
+    <!-- Placeholder for Match Results -->
+    <div id="matchResult"></div>
+
+    <!-- JavaScript file with Flask's url_for -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
