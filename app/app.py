@@ -37,9 +37,11 @@ def handle_resume_upload():
     if not file:
         return jsonify({'error': 'No resume file provided'}), 400
     try:
-        # Ensure upload_resume_and_analyze function accepts a file parameter and handles it correctly
-        result = upload_resume_and_analyze(file)
-        return jsonify(result), 200
+        resume_data = upload_resume_and_analyze(file)
+        if 'error' in resume_data:
+            return jsonify(resume_data), 500  # If error in processing resume, return it
+        analysis_result = analyze_linkedin_profile(resume_data)
+        return jsonify(analysis_result), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

@@ -1,0 +1,88 @@
+/* General body styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+    margin: 0;
+}
+
+/* Container styling */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Input form styling */
+.input-form {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.input-option {
+    margin-bottom: 15px;
+}
+
+/* Heading colors */
+h1, h2 {
+    color: #183153;
+}
+
+/* Input and button styling */
+select, input[type="text"], input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Results and loading styling */
+.analysis-results, .loading, .results-container, .result {
+    margin-bottom: 20px;
+}
+
+.results-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+}
+
+.result {
+    background-color: #e9ecef;
+    padding: 15px;
+    border-radius: 5px;
+    width: 100%; /* Take full width */
+    box-sizing: border-box;
+}
+
+.action-container {
+    display: flex;
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    margin-bottom: 20px;
+}
+
+.loading {
+    display: none; /* Initially hide loading animation */
+}

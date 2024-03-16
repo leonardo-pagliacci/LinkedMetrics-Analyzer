@@ -4,38 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LinkedIn Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <h1>LinkedIn Analyzer</h1>
+    <div class="container">
+        <h1>LinkedIn Analyzer</h1>
+        
+        <div id="inputForm" class="input-form">
+            <select id="inputType" onchange="toggleInputMethod()">
+                <option value="linkedin">LinkedIn Profile</option>
+                <option value="resume">PDF Resume</option>
+            </select>
+
+            <div id="linkedinInput" class="input-option">
+                <input type="text" id="profile_url" placeholder="Enter LinkedIn profile URL"/>
+                <button onclick="analyzeProfile()">Analyze Profile</button>
+            </div>
+            <div id="resumeInput" class="input-option" style="display: none;">
+                <input type="file" id="resume"/>
+                <button onclick="uploadAndAnalyzeResume()">Upload and Analyze Resume</button>
+            </div>
+            <input type="text" id="job_url" placeholder="Enter LinkedIn job URL"/>
+            <button onclick="analyzeJob()">Analyze Job</button>
+        </div>
+        
+        <!-- Button for Matching Profiles -->
+        <div class="action-container">
+            <button onclick="matchProfiles()" class="match-button">Match Profiles</button>
+        </div>
+
+        <!-- Container for Analysis Results -->
+        <div class="analysis-container">
+            <div id="profileAnalysisResult" class="result profile-result">
+                <!-- Placeholder for profile or resume analysis result -->
+            </div>
+            <div id="jobAnalysisResult" class="result job-result">
+                <!-- Placeholder for job analysis result -->
+            </div>
+            <div id="matchResult" class="match-result">
+                <!-- Placeholder for match results -->
+            </div>
+        </div>
+    </div>
     
-    <!-- LinkedIn Profile Form -->
-    <div>
-        <input type="text" id="profile_url" placeholder="Enter LinkedIn profile URL"/>
-        <button onclick="analyzeProfile()">Analyze Profile</button>
-    </div>
-    <div id="profileAnalysisResult"></div> <!-- Placeholder for profile analysis result -->
-
-    <!-- Resume Upload Form -->
-    <div>
-        <input type="file" id="resume"/>
-        <button onclick="uploadAndAnalyzeResume()">Analyze Resume</button>
-    </div>
-    <div id="resumeAnalysisResult"></div> <!-- Placeholder for resume analysis result -->
-
-    <!-- Job URL Form -->
-    <div>
-        <input type="text" id="job_url" placeholder="Enter LinkedIn job URL"/>
-        <button onclick="analyzeJob()">Analyze Job</button>
-    </div>
-    <div id="jobAnalysisResult"></div> <!-- Placeholder for job analysis result -->
-
-    <!-- Match Button -->
-    <button onclick="matchProfiles()">MATCH</button>
-
-    <!-- Placeholder for Match Results -->
-    <div id="matchResult"></div>
-
-    <!-- JavaScript file with Flask's url_for -->
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

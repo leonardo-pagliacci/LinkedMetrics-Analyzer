@@ -29,64 +29,6 @@ if not all([linkedin_username, linkedin_password, openai_api_key]):
 api = Linkedin(linkedin_username, linkedin_password)
 client = OpenAI(api_key=openai_api_key)
 
-# THIS FUNCTION RETURN JSON
-def analyze_linkedin_profile(profile_dict):
-    """
-    Analyzes the given LinkedIn profile dictionary using OpenAI.
-
-    :param jd_dict: A dictionary containing LinkedIn profile information.
-    :return: Analysis result from OpenAI.
-    """
-
-    # Convert the LinkedIn profile dictionary into a textual prompt
-    
-    profile_info = json.dumps(profile_dict, indent=2)
-    
-    prompt = f'''
-    Analyze the LinkedIn profile provided below and generate a structured analysis in JSON format and structured according to the specified JSON schema. Emphasize the overview, strengths, and weaknesses. The analysis should translate any non-English text to English while preserving Named Entities in their original language. 
-    The analysis should provide a clear, detailed overview, highlighting the individual's professional journey, key strengths, areas for improvement, and actionable suggestions for enhancing their profile. 
-    Skills listed in the 'skills' section and those implied in the headline, summary, and project descriptions should be emphasized.
-
-    **LinkedIn Profile Data Structure:**
-    {profile_info}
-
-    **Required JSON Analysis Schema:**
-
-    {{
-      "fullName": "The full name of the individual.",
-      "location": "City, Country.",
-      "overview": "A detailed and insightful summary of the individual's professional journey, focusing on significant achievements, experiences, and the value they bring to their field.",
-      "highestDegree": {{
-        "level": "The highest level of academic achievement (Doctorate, Master's, Bachelor's).",
-        "fieldOfStudy": "Field of study in English.",
-        "institution": "Institution name in the original language.",
-        "graduationDate": "Graduation date (most recent if multiple degrees)."
-      }},
-      "profilePictureUrl": "URL to the profile picture.",
-      "languages": ["List of languages the individual speaks, along with proficiency levels if available. Find the native language if not provided"],
-      "hardSkills": ["List of hard skills relevant to their field and position."],
-      "softSkills": ["List of soft skills that highlight interpersonal and professional competencies."],
-      "strengths": ["In-depth analysis of key strengths, showcasing specific examples from the profile."],
-      "weaknesses": ["Honest evaluation of potential areas for improvement with constructive feedback."],
-      "improvementSuggestions": ["Actionable advice to enhance the profile, tailored to address identified weaknesses."],
-      "careerSuggestions": ["List of job recommendations or career paths that align with the individual's skills and aspirations."]
-    }}
-  '''
-
-    response = client.chat.completions.create(
-      model="gpt-3.5-turbo-0125",
-      response_format={ "type": "json_object" },
-      messages=[
-        {"role": "system", "content": "You are a helpful HR analytics assistant designed to output JSON."},
-        {"role": "user", "content": prompt},
-        
-      ],
-      temperature=0.5,
-      max_tokens=1024,
-      seed = 42
-    )
-    return json.loads(response.choices[0].message.content)
-
 def upload_resume_and_analyze(file):
     if file is None:
         return {'error': 'No resume file provided'}, 400
@@ -168,6 +110,66 @@ def upload_resume_and_analyze(file):
 
     except Exception as e:
         return {'error': f"Failed to process the uploaded file: {e}"}, 500
+
+# THIS FUNCTION RETURN JSON
+def analyze_linkedin_profile(profile_dict):
+    """
+    Analyzes the given LinkedIn profile dictionary using OpenAI.
+
+    :param jd_dict: A dictionary containing LinkedIn profile information.
+    :return: Analysis result from OpenAI.
+    """
+
+    # Convert the LinkedIn profile dictionary into a textual prompt
+    
+    profile_info = json.dumps(profile_dict, indent=2)
+    
+    prompt = f'''
+    Analyze the LinkedIn profile provided below and generate a structured analysis in JSON format and structured according to the specified JSON schema. Emphasize the overview, strengths, and weaknesses. The analysis should translate any non-English text to English while preserving Named Entities in their original language. 
+    The analysis should provide a clear, detailed overview, highlighting the individual's professional journey, key strengths, areas for improvement, and actionable suggestions for enhancing their profile. 
+    Skills listed in the 'skills' section and those implied in the headline, summary, and project descriptions should be emphasized.
+
+    **LinkedIn Profile Data Structure:**
+    {profile_info}
+
+    **Required JSON Analysis Schema:**
+
+    {{
+      "fullName": "The full name of the individual.",
+      "location": "City, Country.",
+      "overview": "A detailed and insightful summary of the individual's professional journey, focusing on significant achievements, experiences, and the value they bring to their field.",
+      "highestDegree": {{
+        "level": "The highest level of academic achievement (Doctorate, Master's, Bachelor's).",
+        "fieldOfStudy": "Field of study in English.",
+        "institution": "Institution name in the original language.",
+        "graduationDate": "Graduation date (most recent if multiple degrees)."
+      }},
+      "profilePictureUrl": "URL to the profile picture.",
+      "languages": ["List of languages the individual speaks, along with proficiency levels if available. Find the native language if not provided"],
+      "hardSkills": ["List of hard skills relevant to their field and position."],
+      "softSkills": ["List of soft skills that highlight interpersonal and professional competencies."],
+      "strengths": ["In-depth analysis of key strengths, showcasing specific examples from the profile."],
+      "weaknesses": ["Honest evaluation of potential areas for improvement with constructive feedback."],
+      "improvementSuggestions": ["Actionable advice to enhance the profile, tailored to address identified weaknesses."],
+      "careerSuggestions": ["List of job recommendations or career paths that align with the individual's skills and aspirations."]
+    }}
+  '''
+
+    response = client.chat.completions.create(
+      model="gpt-3.5-turbo-0125",
+      response_format={ "type": "json_object" },
+      messages=[
+        {"role": "system", "content": "You are a helpful HR analytics assistant designed to output JSON."},
+        {"role": "user", "content": prompt},
+        
+      ],
+      temperature=0.5,
+      max_tokens=1024,
+      seed = 42
+    )
+    return json.loads(response.choices[0].message.content)
+
+
     
 # THIS FUNCTION RETURN JSON
 
@@ -247,7 +249,7 @@ def job_matching_system(profile_json, jd_json):
     """
 
     
-    # Define the prompt for comparison and scoring
+    # Prompt for comparison and scoring
     prompt = f"""
     Evaluate the compatibility between a detailed LinkedIn profile and a job description, aiming to derive a comprehensive compatibility score on a scale from 0 to 100.
     Your analysis should factor in various criteria, each with its own weight, to provide both quantitative and qualitative insights into the match.
@@ -262,47 +264,55 @@ def job_matching_system(profile_json, jd_json):
     **Analysis Output Schema:**
 
     {{
-      "Overall Compatibility Score": "An aggregate score reflecting the overall match quality.",
-      "Details": {{
-        "Skill Matching": {{
-          "Match Status": "Indicate whether there is a match, partial match, or no match.",
-          "Percentage Match": "Provide a numerical score reflecting the skill match quality.",
-          "Matched Skills": "List skills that directly match between the profile and job description."
-        }},
-        "Experience Relevance": {{
-          "Match Status": "Match, Partial Match, No Match",
-          "Suggestions": "Recommendations for highlighting relevant experience more effectively."
-        }},
-        "Educational Alignment": {{
-          "Match Status": "Match, Partial Match, No Match",
-          "Suggestions": "Advice on emphasizing educational background."
-        }},
-        "Cultural and Soft Skills Fit": {{
-          "Match Status": "Match, Partial Match, No Match",
-          "Suggestions": "Suggestions for demonstrating cultural fit and soft skills."
-        }},
-        "Language and International Experience": {{
-          "Match Status": "Match, Partial Match, No Match",
-          "Suggestions": "Tips on showcasing language skills and international exposure."
-        }},
-        "Growth Potential": {{
-          "Match Status": "Match, Partial Match, No Match",
-          "Suggestions": "Insights on projecting learning agility and growth potential."
-        }}
+    "Overall Compatibility Score": "An aggregate score reflecting the overall match quality, represented as a percentage.",
+    "Details": {{
+      "Skill Matching": {{
+        "Match Status": "Indicate whether there is a match, partial match, or no match.",
+        "Percentage Match": "Provide a numerical score (0-100) reflecting the skill match quality.",
+        "Matched Skills": "List skills that directly match between the profile and job description.",
+        "Unmatched Skills": "List skills required by the job that the profile does not possess."
       }},
-      "Summary": "A concise summary offering an overview of the match analysis, highlighting key points and recommendations."
+      "Experience Relevance": {{
+        "Match Status": "Match, Partial Match, No Match",
+        "Percentage Match": "Provide a numerical score (0-100) reflecting the experience relevance.",
+        "Suggestions": "Recommendations for highlighting relevant experience more effectively."
+      }},
+      "Educational Alignment": {{
+        "Match Status": "Match, Partial Match, No Match",
+        "Percentage Match": "Provide a numerical score (0-100) reflecting the educational alignment.",
+        "Suggestions": "Advice on emphasizing educational background in relation to job requirements."
+      }},
+      "Cultural and Soft Skills Fit": {{
+        "Match Status": "Match, Partial Match, No Match",
+        "Percentage Match": "Provide a numerical score (0-100) reflecting the cultural and soft skills fit.",
+        "Suggestions": "Suggestions for demonstrating cultural fit and soft skills alignment with the job."
+      }},
+      "Language and International Experience": {{
+        "Match Status": "Match, Partial Match, No Match",
+        "Percentage Match": "Provide a numerical score (0-100) reflecting the match of language skills and international experience.",
+        "Suggestions": "Tips on showcasing language skills and international exposure relevant to the job."
+      }},
+      "Growth Potential": {{
+        "Match Status": "Match, Partial Match, No Match",
+        "Percentage Match": "Provide a numerical score (0-100) reflecting the assessment of growth potential.",
+        "Suggestions": "Insights on projecting learning agility and growth potential in alignment with job demands."
+      }}
+    }},
+    "Summary": "A concise summary offering an overview of the match analysis, highlighting key points, areas of strong alignment, potential mismatches, and actionable recommendations for improvement."
     }}
 
-      Your response should adhere to this schema, providing a clear, detailed, and insightful analysis based on the detailed LinkedIn profile and job description provided.
+    Your response should adhere to this schema, providing a clear, detailed, and insightful analysis based on the detailed LinkedIn profile and job description provided.
 
-      LinkedIn Profile Summary:
-      {json.dumps(profile_json, indent=4)}
+    LinkedIn Profile Summary:
+    {json.dumps(profile_json, indent=4)}
 
-      Job Description Summary:
-      {json.dumps(jd_json, indent=4)}
+    Job Description Summary:
+    {json.dumps(jd_json, indent=4)}
 
-      Aim for a professional tone, ensuring the analysis is comprehensive and structured according to the schema.
-      """
+    Aim for a professional tone, ensuring the analysis is comprehensive and structured according to the schema.
+    """
+
+        
         
     response = client.chat.completions.create(
       model="gpt-4-0125-preview",
