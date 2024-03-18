@@ -50,7 +50,7 @@ def extract_analyze_job():
     data = request.json  # Changed to request.json for AJAX requests
     job_url = data.get('job_url')
     if job_url:
-        try:
+        try:  
             job_data = linkedin_job_company_extractor(job_url)
             jd_analysis_result = analyze_linkedin_jd(job_data)
             return jsonify(jd_analysis_result), 200

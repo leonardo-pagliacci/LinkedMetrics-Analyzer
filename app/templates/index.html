@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LinkedIn Analyzer</title>
+    <title>LinkedMetrics</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
+
 </head>
 <body>
     <div class="container">
-        <h1>LinkedIn Analyzer</h1>
+        <h1 class="title">LinkedMetrics</h1>
+        <h2 class="subtitle">An AI-powered application for analyzing, parsing, and matching LinkedIn profiles with job descriptions.</h2>
         
-        <div id="inputForm" class="input-form">
+        <form id="inputForm" class="input-form" enctype="multipart/form-data">
             <select id="inputType" onchange="toggleInputMethod()">
                 <option value="linkedin">LinkedIn Profile</option>
                 <option value="resume">PDF Resume</option>
@@ -18,33 +21,28 @@
 
             <div id="linkedinInput" class="input-option">
                 <input type="text" id="profile_url" placeholder="Enter LinkedIn profile URL"/>
-                <button onclick="analyzeProfile()">Analyze Profile</button>
+                <button type="button" onclick="analyzeProfile()">Analyze Profile</button>
             </div>
             <div id="resumeInput" class="input-option" style="display: none;">
-                <input type="file" id="resume"/>
-                <button onclick="uploadAndAnalyzeResume()">Upload and Analyze Resume</button>
+                <input type="file" id="resume" name="resume"/>
+                <button type="button" onclick="uploadAndAnalyzeResume()">Upload and Analyze Resume</button>
             </div>
             <input type="text" id="job_url" placeholder="Enter LinkedIn job URL"/>
-            <button onclick="analyzeJob()">Analyze Job</button>
-        </div>
+            <button type="button" onclick="analyzeJob()">Analyze Job</button>
+        </form>
         
-        <!-- Button for Matching Profiles -->
         <div class="action-container">
-            <button onclick="matchProfiles()" class="match-button">Match Profiles</button>
+            <button type="button" onclick="matchProfiles()" class="match-button">Match Profiles</button>
         </div>
 
-        <!-- Container for Analysis Results -->
         <div class="analysis-container">
-            <div id="profileAnalysisResult" class="result profile-result">
-                <!-- Placeholder for profile or resume analysis result -->
-            </div>
-            <div id="jobAnalysisResult" class="result job-result">
-                <!-- Placeholder for job analysis result -->
-            </div>
-            <div id="matchResult" class="match-result">
-                <!-- Placeholder for match results -->
-            </div>
+            <div id="profileAnalysisResult" class="result profile-result"></div>
+            <div id="jobAnalysisResult" class="result job-result"></div>
+            <div id="matchResult" class="match-result"></div>
         </div>
+        
+        <!-- General Loading Indicator -->
+        <div id="loadingIndicator" class="loading-indicator" style="display: none;"></div>
     </div>
     
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
