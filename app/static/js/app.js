@@ -1,6 +1,10 @@
 function showLoadingIndicator(show) {
-    const loadingIndicator = document.getElementById('loadingIndicator');
-    loadingIndicator.style.display = show ? 'block' : 'none';
+    const loader = document.getElementById('loadingIndicator');
+    if (show) {
+        loader.classList.add('show');
+    } else {
+        loader.classList.remove('show');
+    }
 }
 
 function analyzeProfile() {

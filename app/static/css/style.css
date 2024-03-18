@@ -1,49 +1,85 @@
-/* General body styling */
+:root {
+    --main-color: #0077b5;
+    --hover-color: #005682;
+    --active-color: #004c7a;
+    --text-color: #333;
+    --background-color: #f4f7f6;
+    --font-family-main: 'Segoe UI', Arial, sans-serif;
+    --font-family-title: 'Montserrat', sans-serif;
+}
+
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background-color: #f4f7f6;
-    color: #333;
+    font-family: var(--font-family-main);
+    background-color: var(--background-color);
+    color: var(--text-color);
     line-height: 1.6;
     padding: 20px;
     margin: 0;
 }
 
 .title {
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-family-title);
     text-align: center;
-    color: #0077b5; /* LinkedIn's blue for brand consistency */
-    font-weight: 600; /* Medium to bold for emphasis */
-    font-size: 2.5rem; /* Larger font size for impact */
-    margin-top: 30px; /* More top space to breathe */
-    margin-bottom: 15px; /* Space before the subtitle */
-    letter-spacing: 1.2px; /* Adding some spacing between letters */
-    text-transform: uppercase; /* Optional: makes it more standout */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    color: var(--main-color);
+    font-weight: 600;
+    font-size: 2.5rem;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 768px) {
     .title {
-        font-size: 2rem; /* Slightly smaller font size for smaller screens */
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Adjust shadow for readability */
+        font-size: 2rem;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
     }
 }
 
 .subtitle {
     text-align: center;
-    color: #4A4A4A; /* A slightly softer color for readability */
-    font-weight: 400; /* Avoid too bold to keep it light and professional */
-    font-size: 1.1rem; /* Slightly larger than default text for emphasis */
-    max-width: 90%; /* Giving more room for the text */
-    margin: 20px auto; /* Increase top margin to give space from the title */
-    line-height: 1.6; /* Increase line height for better readability */
-    padding: 10px; /* Padding to add some space around the text */
-    border-radius: 5px; /* Slight rounding of corners for modern feel */
-    background-color: rgba(0, 119, 181, 0.1); /* Light LinkedIn blue background for emphasis */
-    border-left: 4px solid #0077b5; /* A touch of LinkedIn blue as an accent */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    color: #4A4A4A;
+    font-weight: 400;
+    font-size: 1.1rem;
+    max-width: 90%;
+    margin: 20px auto;
+    line-height: 1.6;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgba(0, 119, 181, 0.1);
+    border-left: 4px solid var(--main-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Container styling */
+.section-subtitle-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    margin: 0 auto;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--main-color);
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    white-space: nowrap; /* added line to keep the content on a single line */
+}
+
+
 .container {
     max-width: 1200px;
     margin: auto;
@@ -53,7 +89,6 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Input form styling */
 .input-form {
     background: #fff;
     padding: 20px;
@@ -66,35 +101,24 @@ body {
     margin-bottom: 20px;
 }
 
-/* Heading colors */
-h1, h2 {
-    color: #0077b5; /* LinkedIn's blue */
-    font-weight: 300;
-}
-
-/* Input and button styling */
 select, input[type="text"], input[type="file"] {
     width: 100%;
     padding: 12px;
     margin-bottom: 20px;
-    border: 2px solid #0077b5; /* LinkedIn's blue */
+    border: 2px solid var(--main-color);
     border-radius: 4px;
     box-sizing: border-box;
     transition: border-color 0.25s;
 }
 
-select:hover,
-input[type="text"]:hover,
-input[type="file"]:hover,
-select:focus,
-input[type="text"]:focus,
-input[type="file"]:focus {
-    border-color: #005682; /* Darker blue on hover and focus for better accessibility */
-    outline: none; /* Remove default focus outline */
+select:hover, input[type="text"]:hover, input[type="file"]:hover,
+select:focus, input[type="text"]:focus, input[type="file"]:focus {
+    border-color: var(--hover-color);
+    outline: none;
 }
 
 button {
-    background-color: #0077b5; /* LinkedIn's blue */
+    background-color: var(--main-color);
     color: #fff;
     padding: 10px 15px;
     border: none;
@@ -105,82 +129,97 @@ button {
 }
 
 button:hover {
-    background-color: #005682; /* Darker blue on hover */
-    transform: translateY(-2px); /* Slight raise effect */
+    background-color: var(--hover-color);
+    transform: translateY(-2px) scale(1.02);
 }
 
 button:active, .button-clicked {
-    background-color: #004c7a; /* Even darker blue for active/clicked state */
+    background-color: var(--active-color);
 }
 
-/* Results and loading styling */
-.analysis-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+button:focus-visible, select:focus-visible, input:focus-visible {
+    outline: 3px solid var(--hover-color);
+    outline-offset: 2px;
 }
 
-/* Adjusted Results Container for Side-by-Side Layout */
-/* Adjusted Results Container for Side-by-Side Layout */
 .results-container {
     display: flex;
-    justify-content: space-between; /* Keeps items at far ends */
-    align-items: flex-start; /* Aligns items to the top if they have different heights */
+    justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: 20px;
     width: 100%;
 }
 
 .result {
-    width: calc(50% - 10px); /* Takes half the parent width minus margin */
+    width: calc(50% - 10px);
     background-color: #e9ecef;
     padding: 15px;
     border-radius: 5px;
     box-sizing: border-box;
 }
 
-/* Correctly apply margin only between the two results for spacing */
 .result:first-child {
-    margin-right: 20px; /* Only the first (or left) item gets margin to the right */
+    margin-right: 20px;
 }
 
 .action-container {
     display: flex;
-    justify-content: center; /* Centers the match button horizontally */
+    justify-content: center;
     width: 100%;
     margin: 20px 0;
 }
 
 .match-result {
-    width: 100%; /* Ensures full width for job matching analysis container */
+    width: 100%;
     background-color: #e9ecef;
     padding: 15px;
     border-radius: 5px;
     box-sizing: border-box;
-    margin-top: 20px; /* Space above the match results */
+    margin-top: 20px;
 }
 
-
-/* Loading Indicator Enhancements */
 .loading-indicator {
-    background-color: #0077b5; /* LinkedIn Blue */
+    background-color: var(--main-color);
     height: 4px;
-    width: 100%;
-    transition: width 2.5s ease-in-out;
+    width: 0%; /* Start width */
+    visibility: hidden; /* Initially hidden */
+    position: fixed; /* Makes the loader fixed at the top */
+    top: 0;
+    left: 0;
+    transition: width 2.5s ease-in-out, visibility 0s linear 0.5s; /* Add visibility transition */
 }
 
-/* Accessibility Improvements */
-button:focus, select:focus, input:focus {
-    outline: 3px solid #005682;
-    outline-offset: 2px;
+.loading-indicator.show {
+    width: 100%; /* Full width when active */
+    visibility: visible; /* Make visible when active */
+    transition-delay: 0s; /* Apply transition delay for visibility */
 }
 
-/* Link Styling for LinkedIn-like feel */
+
 a {
-    color: #0077b5;
+    color: var(--main-color);
     text-decoration: none;
 }
 
 a:hover, a:focus {
     text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .container, .input-form {
+        padding: 10px;
+    }
+
+    .section-subtitle {
+        font-size: 1.2rem;
+    }
+
+    button {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .results-container {
+        flex-direction: column;
+    }
 }
