@@ -38,7 +38,7 @@ body {
 }
 
 .subtitle {
-    text-align: center;
+    text-align: left;
     color: #4A4A4A;
     font-weight: 400;
     font-size: 1.1rem;
@@ -61,7 +61,7 @@ body {
 }
 
 .section-subtitle {
-    text-align: center;
+    text-align:center;
     color: var(--main-color);
     font-size: 1.4rem;
     font-weight: 500;
@@ -223,3 +223,13 @@ a:hover, a:focus {
         flex-direction: column;
     }
 }
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.right-align {
+    text-align: right;
+}
+

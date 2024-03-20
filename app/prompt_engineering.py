@@ -147,11 +147,11 @@ def analyze_linkedin_profile(profile_dict):
       "profilePictureUrl": "URL to the profile picture.",
       "languages": ["List of languages the individual speaks, along with proficiency levels if available. Find the native language if not provided"],
       "hardSkills": ["List of hard skills relevant to their field and position."],
-      "softSkills": ["List of soft skills that highlight interpersonal and professional competencies."],
-      "strengths": ["In-depth analysis of key strengths, showcasing specific examples from the profile."],
+      "softSkills": ["List of soft skills that highlight interpersonal and professional competencies. Translate them to english if necessary. If not directly provided, find them on the summary and about section "],
+      "strengths": ["In-depth analysis of key strengths, showcasing specific examples from the profile. If not provided, find them on the summary and about section"],
       "weaknesses": ["Honest evaluation of potential areas for improvement with constructive feedback."],
       "improvementSuggestions": ["Actionable advice to enhance the profile, tailored to address identified weaknesses."],
-      "careerSuggestions": ["List of job recommendations or career paths that align with the individual's skills and aspirations."]
+      "careerSuggestions": ["List of job recommendations or career paths that align with the individual's skills and aspirations. Be creative."]
     }}
   '''
 

@@ -61,18 +61,20 @@ def extract_analyze_job():
 
 @app.route('/match_profiles', methods=['POST'])
 def match_profiles():
-    data = request.json  # Properly parse JSON body
+    data = request.json
+    if not data:
+        return jsonify({'error': 'Request must be JSON'}), 400
+
     profile_data = data.get('profile_data')
     job_data = data.get('job_data')
-    if profile_data and job_data:
-        try:
-            # Assuming job_matching_system function is prepared to handle the dictionaries
-            match_result = job_matching_system(profile_data, job_data)
-            return jsonify(match_result), 200
-        except Exception as e:
-            return jsonify({'error': str(e)}), 500
-    else:
-        return jsonify({'error': 'Both profile and job description data are required'}), 400
+    if not profile_data or not job_data:
+        return jsonify({'error': 'Both profile_data and job_data are required'}), 400
+
+    try:
+        match_result = job_matching_system(profile_data, job_data)
+        return jsonify(match_result), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

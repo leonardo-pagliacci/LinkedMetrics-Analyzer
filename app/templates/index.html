@@ -11,14 +11,14 @@
     <div class="container">
         <header>
             <h1 class="title">LinkedMetrics</h1>
-            <p class="subtitle">An AI-powered application for analyzing, parsing, and matching LinkedIn profiles with job descriptions.</p>
+            <p class="subtitle">An AI-powered web app for analyzing, parsing, and matching LinkedIn profiles with job descriptions.</p>
         </header>
         
         <main>
             <section aria-labelledby="formSection">
                 <h2 id="formSection" class="visually-hidden">Profile and Job Analysis Form</h2>
                 <div class="section-subtitle-wrapper">
-                    <p class="section-subtitle">Profile and Job Analysis</p>
+                    <p class="section-subtitle">Linkedin Data</p>
                 </div>
                 <form id="inputForm" class="input-form" enctype="multipart/form-data">
                     <select id="inputType" onchange="toggleInputMethod()">
@@ -46,13 +46,17 @@
                 </div>
                 <div class="analysis-container">
                     <div class="results-container">
-                        <div id="profileAnalysisResult" class="result profile-result"></div>
-                        <div id="jobAnalysisResult" class="result job-result"></div>
+                        <div id="profileAnalysisResult" class="result profile-result">
+                            <h3 class="result-title">Profile Report</h3>
+                        </div>
+                        <div id="jobAnalysisResult" class="result job-result">
+                            <h3 class="result-title">Job Description Report</h3>
+                        </div>
+                    </div>
+                    <div class="action-container">
+                        <button type="button" onclick="matchProfiles()" class="match-button">Match Profiles</button>
                     </div>
                     <div id="matchResult" class="match-result"></div>
-                </div>
-                <div class="action-container">
-                    <button type="button" onclick="matchProfiles()" class="match-button">Match Profiles</button>
                 </div>
             </section>
             <div id="loadingIndicator" class="loading-indicator" style="display: none;"></div>
