@@ -18,32 +18,51 @@ function analyzeProfile() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ profile_url: profileUrl })
     })
-    .then(response => response.ok ? response.json() : Promise.reject('Failed to load profile data'))
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to load profile data');
+        }
+        return response.json();
+    })
     .then(data => {
-        window.profileAnalysisResult = data; // Save the analysis result for potential future use
+        console.log(data); // Log the data for debugging purposes
+        window.profileAnalysisResult = data; // Optionally save the data for future use
         const resultDiv = document.getElementById('profileAnalysisResult');
-        // Add subtitle dynamically
+        resultDiv.innerHTML = ''; // Clear previous content
+        resultDiv.style.display = 'block';
+
+
+        // Define institution name based on whether it's an object with original or translated fields, or just a string
+        let institutionName = '';
+        if (data.highestDegree && typeof data.highestDegree.institution === 'object') {
+            institutionName = data.highestDegree.institution.original || data.highestDegree.institution.translated;
+        } else if (data.highestDegree && typeof data.highestDegree.institution === 'string') {
+            institutionName = data.highestDegree.institution;
+        }
+
+        // Construct the rest of the content
         let content = `
-        <h3 class="result-title hidden">Profile Report</h3>
-        <img src="${data.profilePictureUrl || 'placeholder.jpg'}" alt="Profile Picture" style="max-width: 100px; height: auto; display: block; margin: 0 auto;">
-        <p><strong>Full Name:</strong> ${data.fullName || 'N/A'}</p>
-        <p><strong>Location:</strong> ${data.location || 'N/A'}</p>
-        <p><strong>Highest Degree:</strong> ${data.highestDegree ? `${data.highestDegree.level} - ${data.highestDegree.fieldOfStudy} - ${data.highestDegree.institution}` : 'N/A'}</p>
-        <hr>
-        <div style="display: flex; justify-content: space-between;">
-            <div style="flex: 1;"><strong>Hard Skills:</strong><br>${Array.isArray(data.hardSkills) ? data.hardSkills.join(', ') : 'Not available'}</div>
-            <div style="flex: 1; text-align: right;"><strong>Soft Skills:</strong><br>${Array.isArray(data.softSkills) ? data.softSkills.join(', ') : 'Not available'}</div>
-        </div>
-        <hr>
-        <div style="display: flex; flex-direction: column;">
-            <div><strong>Strengths:</strong><br>${Array.isArray(data.strengths) ? data.strengths.map(strength => `- ${strength}`).join('<br>') : 'Not available'}</div>
-            <div style="margin-top: 10px;"><strong>Weaknesses:</strong><br>${Array.isArray(data.weaknesses) ? data.weaknesses.map(weakness => `- ${weakness}`).join('<br>') : 'Not available'}</div>
-        </div>
-        <hr>
-        <p><strong>Improvement Suggestions:</strong><br>${Array.isArray(data.improvementSuggestions) ? data.improvementSuggestions.map(suggestion => `- ${suggestion}`).join('<br>') : data.improvementSuggestions || 'N/A'}</p>
-        <p><strong>Career Suggestions:</strong><br>${Array.isArray(data.careerSuggestions) ? data.careerSuggestions.map(suggestion => `- ${suggestion}`).join('<br>') : 'N/A'}</p>
-        `;
-        resultDiv.innerHTML = content;
+            <h3 class="result-title">Profile Report</h3>
+            <p><strong>Full Name:</strong> ${data.fullName || 'N/A'}</p>
+            <p><strong>Location:</strong> ${data.location || 'N/A'}</p>
+            <p><strong>Highest Degree:</strong> ${data.highestDegree ? `${data.highestDegree.level} - ${data.highestDegree.fieldOfStudy} - ${institutionName}` : 'N/A'}</p>
+            <div><strong>Last Professional Experience:</strong> ${data.lastProfessionalExperience.companyName || 'N/A'} - ${data.lastProfessionalExperience.title || 'N/A'} - from ${data.lastProfessionalExperience.startDate || 'N/A'} to ${data.lastProfessionalExperience.endDate || 'Present'} - ${data.lastProfessionalExperience.locationName || 'N/A'}${Array.isArray(data.lastProfessionalExperience.industries) && data.lastProfessionalExperience.industries.length > 0 ? ' - Industry: ' + data.lastProfessionalExperience.industries.join(', ') : ''}</div>
+            <hr>
+            <div style="display: flex; justify-content: space-between;">
+                <div style="flex: 1;"><strong>Hard Skills:</strong><br>${Array.isArray(data.hardSkills) ? data.hardSkills.join(', ') : 'Not available'}</div>
+                <div style="flex: 1; text-align: right;"><strong>Soft Skills:</strong><br>${Array.isArray(data.softSkills) ? data.softSkills.join(', ') : 'Not available'}</div>
+            </div>
+            <hr>
+            <div style="display: flex; flex-direction: column;">
+                <div><strong>Strengths:</strong><br>${Array.isArray(data.strengths) ? data.strengths.map(strength => `- ${strength}`).join('<br>') : 'Not available'}</div>
+                <div style="margin-top: 10px;"><strong>Weaknesses:</strong><br>${Array.isArray(data.weaknesses) ? data.weaknesses.map(weakness => `- ${weakness}`).join('<br>') : 'Not available'}</div>
+            </div>
+            <hr>
+            <p><strong>Improvement Suggestions:</strong><br>${Array.isArray(data.improvementSuggestions) ? data.improvementSuggestions.map(suggestion => `- ${suggestion}`).join('<br>') : data.improvementSuggestions || 'N/A'}</p>
+            <p><strong>Career Suggestions:</strong><br>${Array.isArray(data.careerSuggestions) ? data.careerSuggestions.map(suggestion => `- ${suggestion}`).join('<br>') : 'N/A'}</p>
+            `;
+                // Append the constructed content to the result div
+                resultDiv.innerHTML += content;
     })
     .catch(error => {
         console.error('Error:', error);
@@ -59,9 +78,11 @@ function analyzeProfile() {
 
 
 
+
+
 function analyzeJob() {
     showLoadingIndicator(true);
-    const button = document.querySelector('#job_url');
+    const button = document.querySelector('#job_url + button');
     button.classList.add('button-clicked');
     const jobUrl = document.getElementById('job_url').value;
 
@@ -72,8 +93,11 @@ function analyzeJob() {
     })
     .then(response => response.ok ? response.json() : Promise.reject('Failed to load job data'))
     .then(data => {
+        console.log(data); // Log the data for debugging purposes
         window.jobAnalysisResult = data; // Save the job analysis result for potential future use
         const resultDiv = document.getElementById('jobAnalysisResult');
+        resultDiv.style.display = 'block';
+
         // Dynamically add the subtitle
         let content = `
         <h3 class="result-title">Job Description Report</h3>
@@ -134,12 +158,15 @@ function uploadAndAnalyzeResume() {
         return response.json();
     })
     .then(data => {
+        console.log(data); // Log the data for debugging purposes
         window.profileAnalysisResult = data; // Save the analysis result for potential future use
         const resultDiv = document.getElementById('profileAnalysisResult');
+        resultDiv.innerHTML = ''; // Clear previous content to ensure no overlap of data
+        resultDiv.style.display = 'block'; // Make sure the result container is visible
+
         // Construct content with the given format
         let content = `
         <h3 class="result-title">Profile Report</h3>
-        <img src="${data.profilePictureUrl || 'placeholder.jpg'}" alt="Profile Picture" style="max-width: 100px; height: auto; display: block; margin: 0 auto;">
         <p><strong>Full Name:</strong> ${data.fullName || 'N/A'}</p>
         <p><strong>Location:</strong> ${data.location || 'N/A'}</p>
         <p><strong>Highest Degree:</strong> ${data.highestDegree ? `${data.highestDegree.level} - ${data.highestDegree.fieldOfStudy} - ${data.highestDegree.institution}` : 'N/A'}</p>
@@ -213,6 +240,7 @@ function matchProfiles() {
         })
     })
     .then(response => {
+        
         if (!response.ok) {
             throw new Error('Failed to load match data');
         }
@@ -230,57 +258,89 @@ function matchProfiles() {
 }
 
 function displayMatchResult(data) {
+    console.log(data); // Log the data for debugging purposes
     const matchDiv = document.getElementById('matchResult');
-    const overallScoreColor = getScoreColor(data["Overall Compatibility Score"]);
+    // Extract the numerical value of the overall score for the color function
+    const overallScore = parseInt(data["Overall Compatibility Score"], 10);
+    const overallScoreColor = getScoreColor(overallScore);
     let content = `
-        <p style="font-size: 24px; font-weight: bold; color: ${overallScoreColor}; text-align: center;">Overall Compatibility Score: ${data["Overall Compatibility Score"]}</p>
-        <hr>
-        ${generateMatchSection('Skill Matching', data.Details['Skill Matching'])}
+        <div style="
+        font-size: 24px;
+        font-weight: bold;
+        color: ${overallScoreColor};
+        text-align: center;
+        padding: 20px;
+        background-color: #ffffff; /* Solid white background */
+        border: 2px solid #000000; /* Black border for contrast */
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+        ">Overall Compatibility Score: ${data["Overall Compatibility Score"]}%
+        </div>
+        ${generateMatchSection('Skill Matching', data.Details['Skill Matching'], true)}
         ${generateMatchSection('Experience Relevance', data.Details['Experience Relevance'])}
         ${generateMatchSection('Educational Alignment', data.Details['Educational Alignment'])}
         ${generateMatchSection('Cultural and Soft Skills Fit', data.Details['Cultural and Soft Skills Fit'])}
         ${generateMatchSection('Language and International Experience', data.Details['Language and International Experience'])}
         ${generateMatchSection('Growth Potential', data.Details['Growth Potential'])}
-        <p style="font-weight: bold; text-align: center;">Summary</p>
+        <div style="font-weight: bold;">Summary</div>
         <p>${data.Summary}</p>
     `;
     matchDiv.innerHTML = content;
 }
 
-
 function getScoreColor(score) {
-    if (score >= 90) return '#006400'; // darkgreen
-    if (score >= 76) return '#008000'; // green
-    if (score >= 60) return '#FFD700'; // gold
-    return '#FFA500'; // orange
-}
+    const colorThresholds = [
+        { threshold: 90, color: '#2E8B57' }, // Sea Green
+        { threshold: 76, color: '#3CB371' }, // Medium Sea Green
+        { threshold: 60, color: '#FFD700' }, // Contrasting Gold
+        { threshold: 50, color: '#FFA500' }  // Modern Orange for scores between 60 and 75
+    ];
 
-function generateMatchSection(title, sectionData) {
-    const sectionColor = getScoreColor(sectionData["Percentage Match"]);
-    let matchedSkillsContent, unmatchedSkillsContent;
+    // Default to Dark Red for scores below the lowest threshold
+    const lowestThresholdColor = '#D32F2F'; // Dark Red
 
-    if (Array.isArray(sectionData["Matched Skills"]) && sectionData["Matched Skills"].length > 0) {
-        matchedSkillsContent = sectionData["Matched Skills"].map(skill => `- ${skill}`).join('<br>');
-    } else {
-        matchedSkillsContent = 'Not available';
+    // Find the color corresponding to the score
+    for (let i = 0; i < colorThresholds.length; i++) {
+        if (score >= colorThresholds[i].threshold) {
+            return colorThresholds[i].color;
+        }
     }
 
-    if (Array.isArray(sectionData["Unmatched Skills"]) && sectionData["Unmatched Skills"].length > 0) {
-        unmatchedSkillsContent = sectionData["Unmatched Skills"].map(skill => `- ${skill}`).join('<br>');
-    } else {
-        unmatchedSkillsContent = 'Not available';
-    }
-
-    return `
-        <div style="text-align: center;"><strong>${title}</strong>: ${sectionData["Match Status"]} <span style="color: ${sectionColor};">(${sectionData["Percentage Match"]}%)</span></div>
-        <div style="display: flex; justify-content: space-between;">
-            <div><strong>Matched Skills:</strong><br>${matchedSkillsContent}</div>
-            <div><strong>Unmatched Skills:</strong><br>${unmatchedSkillsContent}</div>
-        </div>
-        <p><strong>Suggestions:</strong> ${sectionData["Suggestions"] || 'N/A'}</p>
-        <hr>
-    `;
+    return lowestThresholdColor;
 }
 
 
+function generateMatchSection(title, sectionData, isSkillsMatch = false) {
+    const sectionPercentageMatch = parseInt(sectionData["Percentage Match"], 10);
+    const sectionColor = getScoreColor(sectionPercentageMatch);
+    let content;
+    let matchedSkillsContent = '';
+    let unmatchedSkillsContent = '';
 
+    if (isSkillsMatch) {
+        if (Array.isArray(sectionData["Matched Skills"]) && sectionData["Matched Skills"].length > 0) {
+            matchedSkillsContent = sectionData["Matched Skills"].map(skill => `- ${skill}`).join('<br>');
+        }
+
+        if (Array.isArray(sectionData["Unmatched Skills"]) && sectionData["Unmatched Skills"].length > 0) {
+            unmatchedSkillsContent = sectionData["Unmatched Skills"].map(skill => `- ${skill}`).join('<br>');
+        }
+
+        content = `
+            <div style="text-align: center;"><strong>${title}</strong>: ${sectionData["Match Status"]} <span style="color: ${sectionColor};">(${sectionData["Percentage Match"]}%)</span></div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                <div style="text-align: left; width: 49%;"><strong>Matched Skills:</strong><br>${matchedSkillsContent}</div>
+                <div style="text-align: right; width: 49%;"><strong>Unmatched Skills:</strong><br>${unmatchedSkillsContent}</div>
+            </div>
+        `;
+    } else {
+        const suggestions = (sectionData["Suggestions"] || 'N/A').replace(/,(?!\s*(?:\(here\)|$))/g, ', ');
+        content = `
+            <div style="text-align: center;"><strong>${title}</strong>: ${sectionData["Match Status"]} <span style="color: ${sectionColor};">(${sectionData["Percentage Match"]}%)</span></div>
+            <p><strong>Suggestions:</strong><br>${suggestions}</p>
+            `;
+            }
+            return content + '<hr>';
+}
+            

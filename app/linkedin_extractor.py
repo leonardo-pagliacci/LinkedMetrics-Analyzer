@@ -3,6 +3,8 @@ import json
 from linkedin_api import Linkedin
 from urllib.parse import urlparse, unquote
 from dotenv import load_dotenv
+import requests
+from base64 import b64encode
 
 # Load environment variables from a .env file
 load_dotenv()
@@ -15,7 +17,7 @@ api = Linkedin(linkedin_username, linkedin_password)
 # Check if credentials are available
 if not linkedin_username or not linkedin_password:
     raise ValueError("LinkedIn credentials not found in environment variables.")
- 
+
 def extract_linkedin_id(profile_url):
     """
     Extracts the LinkedIn ID from a given profile URL, handling various URL formats.
@@ -57,7 +59,7 @@ def linkedin_profile_extractor(profile_url):
         - 'locationName': The general location name.
         - 'geoCountryName': The country name.
         - 'geoLocationName': The specific geographical location.
-        - 'experience': A list of dictionaries, each representing a work experience entry.
+        - 'lastProfessionalExperience' : The user's last professional experience
         - 'education': A list of dictionaries, each representing an education entry.
         - 'languages': A list of languages listed on the profile.
         - 'projects': A list of dictionaries, each representing a project entry.
@@ -80,7 +82,6 @@ def linkedin_profile_extractor(profile_url):
         'locationName': profile.get('locationName', ''),
         'geoCountryName': profile.get('geoCountryName', ''),
         'geoLocationName': profile.get('geoLocationName', ''),
-        'experience': [],
         'education': [],
         'languages': profile.get('languages', 'No languages listed'),
         'projects': [],
@@ -90,17 +91,22 @@ def linkedin_profile_extractor(profile_url):
     }
 
     # Streamline experience details
-    for exp in profile.get('experience', []):
-        experience_detail = {
-            'locationName': exp.get('locationName', ''),
-            'geoLocationName': exp.get('geoLocationName', ''),
-            'companyName': exp.get('companyName', ''),
-            'timePeriod': exp.get('timePeriod', {}),
-            'industries': exp.get('company', {}).get('industries', []),
-            'title': exp.get('title', '')
+    if profile.get('experience'):
+        # The most recent experience is the first one in the list
+        most_recent_experience = profile['experience'][0]
+        lastProfessionalExperience = {
+            'companyName': most_recent_experience.get('companyName', ''),
+            'title': most_recent_experience.get('title', ''),
+            'startDate': most_recent_experience.get('timePeriod', {}).get('startDate', {}),
+            'endDate': most_recent_experience.get('timePeriod', {}).get('endDate', 'Present'),
+            'locationName': most_recent_experience.get('locationName', 'N/A'),
+            'geoLocationName': most_recent_experience.get('geoLocationName', 'N/A'),
+            'industries': most_recent_experience.get('industries', []),
         }
-        extracted_info['experience'].append(experience_detail)
-
+        # Only include the most recent experience in the extracted_info dictionary
+        extracted_info['lastProfessionalExperience'] = lastProfessionalExperience
+    else:
+        extracted_info['lastProfessionalExperience'] = {}
     # Streamline education details
     for edu in profile.get('education', []):
         education_detail = {
@@ -134,8 +140,9 @@ def linkedin_profile_extractor(profile_url):
             if key in profile:
                 extracted_info['profilePictureUrl'] = base_url + profile[key]
                 break 
-    
+
     return extracted_info
+
 
 from urllib.parse import urlparse, unquote
 

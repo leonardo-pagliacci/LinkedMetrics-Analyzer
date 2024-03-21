@@ -19,7 +19,7 @@ def index():
 
 @app.route('/extract_analyze_profile', methods=['POST'])
 def extract_and_analyze_profile():
-    data = request.json  # Changed to request.json for AJAX requests
+    data = request.json  
     profile_url = data.get('profile_url')
     if profile_url:
         try:
@@ -39,7 +39,7 @@ def handle_resume_upload():
     try:
         resume_data = upload_resume_and_analyze(file)
         if 'error' in resume_data:
-            return jsonify(resume_data), 500  # If error in processing resume, return it
+            return jsonify(resume_data), 500  
         analysis_result = analyze_linkedin_profile(resume_data)
         return jsonify(analysis_result), 200
     except Exception as e:
@@ -47,7 +47,7 @@ def handle_resume_upload():
 
 @app.route('/extract_analyze_job', methods=['POST'])
 def extract_analyze_job():
-    data = request.json  # Changed to request.json for AJAX requests
+    data = request.json 
     job_url = data.get('job_url')
     if job_url:
         try:  

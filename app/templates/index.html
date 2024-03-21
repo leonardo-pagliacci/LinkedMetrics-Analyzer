@@ -21,23 +21,26 @@
                     <p class="section-subtitle">Linkedin Data</p>
                 </div>
                 <form id="inputForm" class="input-form" enctype="multipart/form-data">
-                    <select id="inputType" onchange="toggleInputMethod()">
-                        <option value="linkedin">LinkedIn Profile</option>
-                        <option value="resume">PDF Resume</option>
-                    </select>
-
-                    <div id="linkedinInput" class="input-option">
-                        <input type="text" id="profile_url" placeholder="Enter LinkedIn profile URL"/>
-                        <button type="button" onclick="analyzeProfile()">Analyze Profile</button>
+                    <div class="form-section left">
+                        <select id="inputType" onchange="toggleInputMethod()">
+                            <option value="linkedin">LinkedIn Profile</option>
+                            <option value="resume">PDF Resume</option>
+                        </select>
+                        <div id="linkedinInput" class="input-option">
+                            <input type="text" id="profile_url" placeholder="Enter LinkedIn profile URL"/>
+                            <button type="button" onclick="analyzeProfile()">Analyze Profile</button>
+                        </div>
+                        <div id="resumeInput" class="input-option" style="display: none;">
+                            <input type="file" id="resume" name="resume"/>
+                            <button type="button" onclick="uploadAndAnalyzeResume()">Analyze Resume</button>
+                        </div>
                     </div>
-                    <div id="resumeInput" class="input-option" style="display: none;">
-                        <input type="file" id="resume" name="resume"/>
-                        <button type="button" onclick="uploadAndAnalyzeResume()">Upload and Analyze Resume</button>
+                    <div class="input-option" id="jobInput"> <!-- Added a wrapper div with class for consistent styling -->
+                        <input type="text" id="job_url" placeholder="Enter LinkedIn job URL"/>
+                        <button type="button" onclick="analyzeJob()">Analyze Job</button>
                     </div>
-                    <input type="text" id="job_url" placeholder="Enter LinkedIn job URL"/>
-                    <button type="button" onclick="analyzeJob()">Analyze Job</button>
                 </form>
-            </section>
+             </section>
             
             <section aria-labelledby="resultsSection">
                 <h2 id="resultsSection" class="visually-hidden">Analysis Results</h2>

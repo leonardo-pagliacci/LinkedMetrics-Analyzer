@@ -88,18 +88,52 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
 .input-form {
-    background: #fff;
+    display: flex;
+    flex-direction: column; /* Stack all form sections vertically */
+    gap: 20px; /* Space between form sections */
     padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.form-section, 
+.input-option#jobInput {
+    width: 100%; /* Ensure full width for better control */
 }
 
 .input-option {
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column; /* Stack inputs and buttons vertically */
+    align-items: center; /* Center-align the stacked items */
+    gap: 10px; /* Space between input and button */
 }
+
+.input-option input[type="text"], 
+.input-option input[type="file"], 
+.input-option button {
+    width: 100%; /* Full width to match parent’s width */
+    padding: 10px; /* Adequate padding for better touch target */
+}
+
+/* Optional: Adjust the button style to differentiate or maintain consistency */
+.input-option button {
+    cursor: pointer; /* Visual cue for clickable buttons */
+    background-color: var(--main-color); /* Button color */
+    color: #fff; /* Text color */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Rounded corners */
+    transition: background-color 0.25s, transform 0.2s; /* Smooth transition for hover and click */
+}
+
+.input-option button:hover {
+    background-color: var(--hover-color); /* Darker shade on hover */
+    transform: translateY(-2px); /* Slight move up */
+}
+
+.input-option button:active {
+    background-color: var(--active-color); /* Even darker shade on click */
+}
+
+
 
 select, input[type="text"], input[type="file"] {
     width: 100%;
@@ -151,6 +185,7 @@ button:focus-visible, select:focus-visible, input:focus-visible {
 }
 
 .result {
+    display: none;
     width: calc(50% - 10px);
     background-color: #e9ecef;
     padding: 15px;

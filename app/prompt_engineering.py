@@ -144,6 +144,15 @@ def analyze_linkedin_profile(profile_dict):
         "institution": "Institution name in the original language.",
         "graduationDate": "Graduation date (most recent if multiple degrees)."
       }},
+      "lastProfessionalExperience": {{
+        "companyName": "Name of the company of the most recent or current job position.",
+        "title": "Job title of the most recent or current position.",
+        "startDate": "Start date of the most recent or current position. Use format YYYY-MM if possible.",
+        "endDate": "End date of the most recent or current position, if applicable. Use format YYYY-MM if possible. Use 'Present' if still working there.",
+        "locationName": "City, Country of the most recent or current position.",
+        "geoLocationName": "Specific geographical location of the most recent or current position.",
+        "industries": ["List of industries related to the most recent or current position."]
+      }},
       "profilePictureUrl": "URL to the profile picture.",
       "languages": ["List of languages the individual speaks, along with proficiency levels if available. Find the native language if not provided"],
       "hardSkills": ["List of hard skills relevant to their field and position."],
@@ -264,7 +273,7 @@ def job_matching_system(profile_json, jd_json):
     **Analysis Output Schema:**
 
     {{
-    "Overall Compatibility Score": "An aggregate score reflecting the overall match quality, represented as a percentage.",
+    "Overall Compatibility Score": "An aggregate score reflecting the overall match quality. Provide a numerical score (0-100)",
     "Details": {{
       "Skill Matching": {{
         "Match Status": "Indicate whether there is a match, partial match, or no match.",
@@ -315,7 +324,7 @@ def job_matching_system(profile_json, jd_json):
         
         
     response = client.chat.completions.create(
-      model="gpt-4-0125-preview",
+      model="gpt-3.5-turbo-0125",
       response_format={ "type": "json_object" },
       messages=[
         {"role": "system", "content": "You are a helpful HR analytics assistant designed to output JSON."},
