@@ -324,7 +324,7 @@ def job_matching_system(profile_json, jd_json):
         
         
     response = client.chat.completions.create(
-      model="gpt-3.5-turbo-0125",
+      model="gpt-4-turbo-preview",
       response_format={ "type": "json_object" },
       messages=[
         {"role": "system", "content": "You are a helpful HR analytics assistant designed to output JSON."},

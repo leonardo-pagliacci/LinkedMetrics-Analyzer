@@ -4,7 +4,7 @@
     --active-color: #004c7a;
     --text-color: #333;
     --background-color: #f4f7f6;
-    --font-family-main: 'Segoe UI', Arial, sans-serif;
+    --font-family-main: 'Montserrat', sans-serif;
     --font-family-title: 'Montserrat', sans-serif;
 }
 
@@ -38,12 +38,12 @@ body {
 }
 
 .subtitle {
-    text-align: left;
+    text-align: center;
+    margin: 0 5%; /* Increased margin for more spacing */
     color: #4A4A4A;
     font-weight: 400;
     font-size: 1.1rem;
     max-width: 90%;
-    margin: 20px auto;
     line-height: 1.6;
     padding: 10px;
     border-radius: 5px;
@@ -79,7 +79,6 @@ body {
     white-space: nowrap; /* added line to keep the content on a single line */
 }
 
-
 .container {
     max-width: 1200px;
     margin: auto;
@@ -88,63 +87,103 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+/* Wrapping both profile and job analysis sections */
+.profile-analysis,
+.job-analysis {
+    width: 48%; /* Adjust based on the container's width to fit side by side */
+    margin: 0 3%; /* Increased margin for more spacing */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start */
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between; /* Space out the child elements */
+    align-items: flex-start; /* Align items at their start line */
+}
+
 .input-form {
     display: flex;
-    flex-direction: column; /* Stack all form sections vertically */
-    gap: 20px; /* Space between form sections */
-    padding: 20px;
+    margin: 0 5%; /* Increased margin for more spacing */
+    flex-wrap: wrap;
+    justify-content: space-between; /* Ensure spacing between columns */
 }
 
-.form-section, 
-.input-option#jobInput {
-    width: 100%; /* Ensure full width for better control */
-}
-
-.input-option {
+/* Adjust widths for responsive design */
+.form-section, .profile-analysis, .job-analysis {
+    flex: 1 1 48%; /* Adjust this to manage the space distribution */
+    margin: 0 1%; /* Small margin for spacing */
     display: flex;
-    flex-direction: column; /* Stack inputs and buttons vertically */
-    align-items: center; /* Center-align the stacked items */
-    gap: 10px; /* Space between input and button */
+    flex-direction: column;
 }
 
-.input-option input[type="text"], 
-.input-option input[type="file"], 
+.input-option, .select-wrapper, .button-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px; /* Space between form elements */
+}
+
+.select-wrapper .placeholder-select,
+.input-option input[type="text"],
+.input-option select,
+.button-container button {
+    padding: 10px;
+    margin-bottom: 10px; /* Space below each element */
+    border: 2px solid var(--main-color);
+    border-radius: 4px;
+    width: 100%; /* Full width for alignment */
+}
+
+/* Adjust button width to match input/select fields */
 .input-option button {
-    width: 100%; /* Full width to match parent’s width */
-    padding: 10px; /* Adequate padding for better touch target */
+    width: 145px; /* Match input/select field width */
+    margin: 10px auto;
 }
 
-/* Optional: Adjust the button style to differentiate or maintain consistency */
-.input-option button {
-    cursor: pointer; /* Visual cue for clickable buttons */
-    background-color: var(--main-color); /* Button color */
-    color: #fff; /* Text color */
-    border: none; /* Remove border */
-    border-radius: 4px; /* Rounded corners */
-    transition: background-color 0.25s, transform 0.2s; /* Smooth transition for hover and click */
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .profile-analysis,
+    .job-analysis {
+        width: 100%; /* Full width for mobile */
+        margin: 0 0 20px 0; /* Stack vertically with spacing between */
+    }
+
+    .input-option button {
+        width: 145px; /* Ensure button width matches input/select on mobile */
+    }
 }
 
-.input-option button:hover {
-    background-color: var(--hover-color); /* Darker shade on hover */
-    transform: translateY(-2px); /* Slight move up */
+.button-container {
+    display: flex;
+    justify-content: center; /* Center the buttons horizontally */
 }
 
-.input-option button:active {
-    background-color: var(--active-color); /* Even darker shade on click */
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .form-section, .profile-analysis, .job-analysis {
+        flex: 1 1 100%; /* Full width for smaller screens */
+        margin: 0 0 20px; /* Adjust margin for vertical stacking */
+    }
+
+    .input-option input[type="text"],
+    .input-option select,
+    .button-container button {
+        padding: 10px; /* Ensure padding is consistent on smaller screens */
+    }
 }
-
-
 
 select, input[type="text"], input[type="file"] {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     margin-bottom: 20px;
     border: 2px solid var(--main-color);
     border-radius: 4px;
     box-sizing: border-box;
     transition: border-color 0.25s;
-}
-
+    }
 select:hover, input[type="text"]:hover, input[type="file"]:hover,
 select:focus, input[type="text"]:focus, input[type="file"]:focus {
     border-color: var(--hover-color);
@@ -153,13 +192,15 @@ select:focus, input[type="text"]:focus, input[type="file"]:focus {
 
 button {
     background-color: var(--main-color);
-    color: #fff;
+    color: white;
     padding: 10px 15px;
     border: none;
+    margin: 0.5px auto;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.25s, transform 0.2s;
+    width: 145px; 
 }
 
 button:hover {
@@ -176,35 +217,77 @@ button:focus-visible, select:focus-visible, input:focus-visible {
     outline-offset: 2px;
 }
 
-.results-container {
+
+.analysis-container {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 20px;
-    width: 100%;
+    flex-direction: row; /* Ensure children are side by side */
+    justify-content: space-around; /* Adjust based on your layout */
+    align-items: stretch; /* Stretch children to fill the container height */
+    width: 100%; /* Ensure full width */
+    flex-wrap: wrap; /* Allow wrapping if necessary */
 }
+
+
+.result-container {
+    display:flex; /* Initially hidden */
+    flex: 1; /* Allows the containers to grow and take up equal width */
+    flex-direction: column; /* Stacks child elements vertically */
+    justify-content: flex-start; /* Aligns children at the start */
+    padding: 15px; /* Adds padding inside the container */
+    border-radius: 5px; /* Rounds the corners */
+    background-color: #e9ecef; /* Sets the background color */
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+    margin: 10px; /* Adds some space around each container */
+}
+
 
 .result {
     display: none;
-    width: calc(50% - 10px);
+    width: 100%; /* Take up full width of the result container */
     background-color: #e9ecef;
     padding: 15px;
     border-radius: 5px;
     box-sizing: border-box;
+    overflow-y: auto; /* Makes content scrollable if it overflows the y-axis */
+
 }
 
-.result:first-child {
-    margin-right: 20px;
+.result-title {
+    color: #0077b5; /* LinkedIn blue for title */
+    margin-bottom: 15px; /* Space below the title */
 }
 
-.action-container {
+/* Adjust width of result containers for smaller screens */
+@media (max-width: 768px) {
+    .result-container {
+        flex-basis: 100%; /* Set full width for smaller screens */
+        margin: 10px 0; /* Adjust margin as needed */
+        display: flex; /* or display: block; based on your preference */
+    }
+}
+
+
+
+.action-and-loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    width: 100%; /* Ensure it takes the full width */
+
+}
+
+.loading-indicator-section {
+    width: 100%;
     display: flex;
     justify-content: center;
-    width: 100%;
-    margin: 20px 0;
+    align-items: center;
+    margin: 10px 0; /* Corrected margin for top and bottom */
+
 }
 
 .match-result {
+    display: block; /* Initially hidden */
     width: 100%;
     background-color: #e9ecef;
     padding: 15px;
@@ -213,35 +296,62 @@ button:focus-visible, select:focus-visible, input:focus-visible {
     margin-top: 20px;
 }
 
+.loading-indicators {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.loading-indicator-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px 0;
+}
+
 .loading-indicator {
-    background-color: var(--main-color);
+    background-color: var(--main-color); /* Color of the loading bar */
     height: 4px;
-    width: 0%; /* Start width */
-    visibility: hidden; /* Initially hidden */
-    position: fixed; /* Makes the loader fixed at the top */
-    top: 0;
-    left: 0;
-    transition: width 2.5s ease-in-out, visibility 0s linear 0.5s; /* Add visibility transition */
+    width: 0%; /* Start with 0 width */
+    visibility: visible; /* Make it visible */
+    transition: width 0.5s ease; /* Smooth transition for width changes */
 }
 
 .loading-indicator.show {
-    width: 100%; /* Full width when active */
-    visibility: visible; /* Make visible when active */
-    transition-delay: 0s; /* Apply transition delay for visibility */
+    width: 100%; /* Full width to show loading is complete */
 }
 
+/* Additional styling to visually support the loading indicators */
+.loading-indicators {
+    margin-top: 20px;
+}
 
-a {
+.loading-text {
+    margin-left: 10px; /* Space between the loading bar and the text */
+    font-size: 14px;
     color: var(--main-color);
-    text-decoration: none;
+    /* Use visibility or display to hide/show the text */
 }
 
-a:hover, a:focus {
-    text-decoration: underline;
-}
+/* Specific styling for buttons, inputs, and selects remains unchanged */
 
 @media (max-width: 768px) {
-    .container, .input-form {
+    .title {
+        font-size: 1.8rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    input[type="text"], input[type="file"], select, button {
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+
+    .container {
         padding: 10px;
     }
 
@@ -267,4 +377,3 @@ a:hover, a:focus {
 .right-align {
     text-align: right;
 }
-

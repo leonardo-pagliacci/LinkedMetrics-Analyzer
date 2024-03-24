@@ -1,17 +1,64 @@
-function showLoadingIndicator(show) {
-    const loader = document.getElementById('loadingIndicator');
-    if (show) {
-        loader.classList.add('show');
-    } else {
-        loader.classList.remove('show');
+function startLoadingIndicator(action, duration = 30000) {
+    const updateInterval = 400; // Time between updates in milliseconds.
+    let currentStep = 0;
+    const totalSteps = duration / updateInterval;
+
+    const indicator = document.querySelector(`.${action}-loading-indicator`);
+    const text = document.querySelector(`.${action}-loading-text`);
+
+    if (!indicator || !text) {
+        console.error(`Elements for ${action} loading indicator not found.`);
+        return;
     }
+
+    indicator.style.width = "0%";
+    text.innerText = "0%";
+
+    // Update progress at regular intervals.
+    const progressInterval = setInterval(() => {
+        currentStep++;
+        const percentage = Math.min((currentStep / totalSteps) * 100, 100); // Ensures max of 100%.
+        updateLoadingProgress(indicator, text, percentage);
+
+        if (currentStep >= totalSteps) {
+            clearInterval(progressInterval);
+            // Can optionally hide the indicator here or reset it for a new action.
+        }
+    }, updateInterval);
+
+    return { indicator, text, progressInterval }; // Return the indicator, text, and progressInterval
 }
 
+// Resets or hides the loading indicator for a given action.
+function stopLoadingIndicator(action) {
+    const indicator = document.querySelector(`.${action}-loading-indicator`);
+    const text = document.querySelector(`.${action}-loading-text`);
+
+    if (!indicator || !text) {
+        console.error(`Elements for ${action} loading indicator not found.`);
+        return;
+    }
+
+    indicator.style.width = "0%";
+    text.innerText = "Completed";
+    // If desired, you can also add code here to change the visibility or display properties.
+}
+
+// Updates the loading progress indicator with the current percentage.
+function updateLoadingProgress(indicator, text, percentage) {
+    const roundedPercentage = Math.floor(percentage); // Round down to nearest integer
+    indicator.style.width = `${roundedPercentage}%`; // Update the width of the indicator element
+    text.innerText = `${roundedPercentage}%`; // Update the text content to display the rounded percentage without the percentage symbol
+}
+
+
 function analyzeProfile() {
-    showLoadingIndicator(true);
+    const profileUrl = document.getElementById('profile_url').value;
+
+    // Start loading indicator
+    const { indicator, text, progressInterval } = startLoadingIndicator('profile-analysis');
     const button = document.querySelector('#linkedinInput button');
     button.classList.add('button-clicked');
-    const profileUrl = document.getElementById('profile_url').value;
 
     fetch('/extract_analyze_profile', {
         method: 'POST',
@@ -30,7 +77,6 @@ function analyzeProfile() {
         const resultDiv = document.getElementById('profileAnalysisResult');
         resultDiv.innerHTML = ''; // Clear previous content
         resultDiv.style.display = 'block';
-
 
         // Define institution name based on whether it's an object with original or translated fields, or just a string
         let institutionName = '';
@@ -61,37 +107,51 @@ function analyzeProfile() {
             <p><strong>Improvement Suggestions:</strong><br>${Array.isArray(data.improvementSuggestions) ? data.improvementSuggestions.map(suggestion => `- ${suggestion}`).join('<br>') : data.improvementSuggestions || 'N/A'}</p>
             <p><strong>Career Suggestions:</strong><br>${Array.isArray(data.careerSuggestions) ? data.careerSuggestions.map(suggestion => `- ${suggestion}`).join('<br>') : 'N/A'}</p>
             `;
-                // Append the constructed content to the result div
-                resultDiv.innerHTML += content;
+        
+        // Append the constructed content to the result div
+        resultDiv.innerHTML += content;
+
+        // Ensure the loading indicator reaches 100% before hiding
+        updateLoadingProgress(indicator, text, 100);
+
+        // Stop the loading indicator
+        clearInterval(progressInterval);
+        stopLoadingIndicator('profile-analysis'); 
+        button.classList.remove('button-clicked');
     })
     .catch(error => {
         console.error('Error:', error);
         const resultDiv = document.getElementById('profileAnalysisResult');
         resultDiv.innerHTML = `<p>Error occurred: ${error}</p>`;
-    })
-    .finally(() => {
-        showLoadingIndicator(false);
+        
+        // Stop the loading indicator in case of error
+        clearInterval(progressInterval);
+        stopLoadingIndicator('profile-analysis');
         button.classList.remove('button-clicked');
     });
 }
 
 
 
-
-
-
 function analyzeJob() {
-    showLoadingIndicator(true);
+    const jobUrl = document.getElementById('job_url').value;
+
+    // Start loading indicator
+    const { indicator, text, progressInterval } = startLoadingIndicator('job-analysis');
     const button = document.querySelector('#job_url + button');
     button.classList.add('button-clicked');
-    const jobUrl = document.getElementById('job_url').value;
 
     fetch('/extract_analyze_job', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ job_url: jobUrl })
     })
-    .then(response => response.ok ? response.json() : Promise.reject('Failed to load job data'))
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to load job data');
+        }
+        return response.json();
+    })
     .then(data => {
         console.log(data); // Log the data for debugging purposes
         window.jobAnalysisResult = data; // Save the job analysis result for potential future use
@@ -120,17 +180,27 @@ function analyzeJob() {
         <p><strong>Specialties:</strong> ${Array.isArray(data.companyInfo && data.companyInfo.specialties) ? data.companyInfo.specialties.join(', ') : 'Not available'}</p>
     `;
         resultDiv.innerHTML = content;
+
+        // Ensure the loading indicator reaches 100% before hiding
+        updateLoadingProgress(indicator, text, 100);
+
+        // Stop the loading indicator after content is rendered
+        clearInterval(progressInterval);
+        stopLoadingIndicator('job-analysis');
+        button.classList.remove('button-clicked');
     })
     .catch(error => {
         console.error('Error:', error);
         const resultDiv = document.getElementById('jobAnalysisResult');
         resultDiv.innerHTML = `<p>Error occurred: ${error}</p>`;
-    })
-    .finally(() => {
-        showLoadingIndicator(false);
+        // Stop the loading indicator in case of error
+        clearInterval(progressInterval);
+        stopLoadingIndicator('job-analysis');
         button.classList.remove('button-clicked');
     });
 }
+
+
 
 function uploadAndAnalyzeResume() {
     showLoadingIndicator(true);
@@ -214,7 +284,8 @@ function toggleInputMethod() {
 
 
 function matchProfiles() {
-    showLoadingIndicator(true);
+    // Start loading indicator
+    const { indicator, text, progressInterval } = startLoadingIndicator('match');
     const button = document.querySelector('.match-button');
     button.classList.add('button-clicked');
 
@@ -240,22 +311,30 @@ function matchProfiles() {
         })
     })
     .then(response => {
-        
         if (!response.ok) {
             throw new Error('Failed to load match data');
         }
         return response.json();
     })
-    .then(data => displayMatchResult(data)) // Display the match result
+    .then(data => {
+        displayMatchResult(data); // Display the match result
+        // Ensure the loading indicator reaches 100% before hiding
+        updateLoadingProgress(indicator, text, 100);
+        // Stop the loading indicator after content is rendered
+        clearInterval(progressInterval);
+        stopLoadingIndicator('match');
+        button.classList.remove('button-clicked');
+    })
     .catch(error => {
         console.error('Error:', error);
         document.getElementById('matchResult').innerHTML = `<p>Error occurred: ${error.message}</p>`;
-    })
-    .finally(() => {
-        showLoadingIndicator(false);
+        // Stop the loading indicator in case of error
+        clearInterval(progressInterval);
+        stopLoadingIndicator('match');
         button.classList.remove('button-clicked');
     });
 }
+
 
 function displayMatchResult(data) {
     console.log(data); // Log the data for debugging purposes
@@ -267,24 +346,29 @@ function displayMatchResult(data) {
         <div style="
         font-size: 24px;
         font-weight: bold;
-        color: ${overallScoreColor};
         text-align: center;
         padding: 20px;
-        background-color: #ffffff; /* Solid white background */
-        border: 2px solid #000000; /* Black border for contrast */
+        border: 1px solid #000000; /* Thinner Black border */
         border-radius: 10px;
         margin-bottom: 20px;
         box-sizing: border-box;
-        ">Overall Compatibility Score: ${data["Overall Compatibility Score"]}%
+        ">Overall Compatibility Score: <span style="color: ${overallScoreColor};">${data["Overall Compatibility Score"]}%</span>
         </div>
         ${generateMatchSection('Skill Matching', data.Details['Skill Matching'], true)}
-        ${generateMatchSection('Experience Relevance', data.Details['Experience Relevance'])}
+        ${generateMatchSection('Professional Relevance', data.Details['Experience Relevance'])}
         ${generateMatchSection('Educational Alignment', data.Details['Educational Alignment'])}
         ${generateMatchSection('Cultural and Soft Skills Fit', data.Details['Cultural and Soft Skills Fit'])}
         ${generateMatchSection('Language and International Experience', data.Details['Language and International Experience'])}
         ${generateMatchSection('Growth Potential', data.Details['Growth Potential'])}
-        <div style="font-weight: bold;">Summary</div>
-        <p>${data.Summary}</p>
+        <div style="
+        border: 1px solid #000000;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        ">
+            <div style="text-align: center; font-weight: bold;">Summary</div>
+            <p style="text-align: justify; margin: 10px 0;">${data.Summary}</p>
+        </div>
     `;
     matchDiv.innerHTML = content;
 }
@@ -311,36 +395,52 @@ function getScoreColor(score) {
 }
 
 
-function generateMatchSection(title, sectionData, isSkillsMatch = false) {
-    const sectionPercentageMatch = parseInt(sectionData["Percentage Match"], 10);
-    const sectionColor = getScoreColor(sectionPercentageMatch);
-    let content;
-    let matchedSkillsContent = '';
-    let unmatchedSkillsContent = '';
+function generateMatchSection(title, sectionData) {
+    const sectionColor = getScoreColor(sectionData["Percentage Match"]);
 
-    if (isSkillsMatch) {
+    // Transform the array of suggestions into a single string with bullet points
+    let suggestionsContent;
+    if (Array.isArray(sectionData["Suggestions"]) && sectionData["Suggestions"].length > 0) {
+        suggestionsContent = sectionData["Suggestions"].map(suggestion => `- ${suggestion}`).join('<br>');
+    } else {
+        suggestionsContent = 'N/A';
+    }
+
+    if (title === 'Skill Matching') {
+        // Handle matched and unmatched skills content for "Skill Matching" section
+        let matchedSkillsContent = 'Not available', unmatchedSkillsContent = 'Not available';
         if (Array.isArray(sectionData["Matched Skills"]) && sectionData["Matched Skills"].length > 0) {
             matchedSkillsContent = sectionData["Matched Skills"].map(skill => `- ${skill}`).join('<br>');
         }
-
         if (Array.isArray(sectionData["Unmatched Skills"]) && sectionData["Unmatched Skills"].length > 0) {
             unmatchedSkillsContent = sectionData["Unmatched Skills"].map(skill => `- ${skill}`).join('<br>');
         }
 
-        content = `
-            <div style="text-align: center;"><strong>${title}</strong>: ${sectionData["Match Status"]} <span style="color: ${sectionColor};">(${sectionData["Percentage Match"]}%)</span></div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                <div style="text-align: left; width: 49%;"><strong>Matched Skills:</strong><br>${matchedSkillsContent}</div>
-                <div style="text-align: right; width: 49%;"><strong>Unmatched Skills:</strong><br>${unmatchedSkillsContent}</div>
+        return `
+        <div style="text-align: center;">
+            <strong>${title}</strong>: ${sectionData["Match Status"]}
+            <span style="color: ${sectionColor}; font-weight: bold;">
+                ${sectionData["Percentage Match"]}%
+            </span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+            <div style="text-align: left;">
+                <strong>Matched Skills:</strong><br>${matchedSkillsContent}
             </div>
-        `;
+            <div style="text-align: right;">
+                <strong>Unmatched Skills:</strong><br>${unmatchedSkillsContent}
+            </div>
+        </div>
+        <hr>
+    `;
+    
     } else {
-        const suggestions = (sectionData["Suggestions"] || 'N/A').replace(/,(?!\s*(?:\(here\)|$))/g, ', ');
-        content = `
-            <div style="text-align: center;"><strong>${title}</strong>: ${sectionData["Match Status"]} <span style="color: ${sectionColor};">(${sectionData["Percentage Match"]}%)</span></div>
-            <p><strong>Suggestions:</strong><br>${suggestions}</p>
-            `;
-            }
-            return content + '<hr>';
+        // For other sections, display the suggestions
+        return `
+            <div style="text-align: center;"><strong>${title}</strong>: ${sectionData["Match Status"]} <span style="color: ${sectionColor};font-weight: bold;">${sectionData["Percentage Match"]}%</span></div>
+            <p style="text-align: left;"><strong>Suggestions:</strong><br>${suggestionsContent}</p>
+            <hr>
+        `;
+
+    }
 }
-            

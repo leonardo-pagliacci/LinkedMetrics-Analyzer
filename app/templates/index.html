@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LinkedMetrics</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -18,53 +18,74 @@
             <section aria-labelledby="formSection">
                 <h2 id="formSection" class="visually-hidden">Profile and Job Analysis Form</h2>
                 <div class="section-subtitle-wrapper">
-                    <p class="section-subtitle">Linkedin Data</p>
+                    <p class="section-subtitle">Enter LinkedIn Data</p>
                 </div>
                 <form id="inputForm" class="input-form" enctype="multipart/form-data">
-                    <div class="form-section left">
+                    <!-- Wrapper for Profile Analysis -->
+                    <div class="profile-analysis">
                         <select id="inputType" onchange="toggleInputMethod()">
                             <option value="linkedin">LinkedIn Profile</option>
                             <option value="resume">PDF Resume</option>
                         </select>
                         <div id="linkedinInput" class="input-option">
                             <input type="text" id="profile_url" placeholder="Enter LinkedIn profile URL"/>
-                            <button type="button" onclick="analyzeProfile()">Analyze Profile</button>
+                            <button type="button" class="common-button" onclick="analyzeProfile()">Analyze Profile</button>
+                            <!-- Loading indicator for profile analysis -->
+                            <div class="loading-indicator-section">
+                                <div class="loading-indicator profile-analysis-loading-indicator"></div>
+                                <p class="loading-text profile-analysis-loading-text"></p>
+                            </div>
                         </div>
                         <div id="resumeInput" class="input-option" style="display: none;">
                             <input type="file" id="resume" name="resume"/>
-                            <button type="button" onclick="uploadAndAnalyzeResume()">Analyze Resume</button>
+                            <button type="button" class="common-button" onclick="uploadAndAnalyzeResume()">Analyze Resume</button>
+                            <!-- Loading indicator can be added here if needed for resume analysis -->
                         </div>
                     </div>
-                    <div class="input-option" id="jobInput"> <!-- Added a wrapper div with class for consistent styling -->
+                    
+                    <!-- Wrapper for Job Analysis -->
+                    <div class="job-analysis">
                         <input type="text" id="job_url" placeholder="Enter LinkedIn job URL"/>
-                        <button type="button" onclick="analyzeJob()">Analyze Job</button>
+                        <button type="button" class="common-button" onclick="analyzeJob()">Analyze Job</button>
+                        <!-- Loading indicator for job analysis -->
+                        <div class="loading-indicator-section">
+                            <div class="loading-indicator job-analysis-loading-indicator"></div>
+                            <p class="loading-text job-analysis-loading-text"></p>
+                        </div>
                     </div>
                 </form>
-             </section>
+            </section>
             
+            <!-- Section for Analysis Results and Matching -->
             <section aria-labelledby="resultsSection">
                 <h2 id="resultsSection" class="visually-hidden">Analysis Results</h2>
                 <div class="section-subtitle-wrapper">
                     <p class="section-subtitle">Analysis Results</p>
                 </div>
                 <div class="analysis-container">
-                    <div class="results-container">
+                    <div id="profileContainer" class="result-container">
                         <div id="profileAnalysisResult" class="result profile-result">
                             <h3 class="result-title">Profile Report</h3>
                         </div>
+                    </div>
+                    <div id="jobContainer" class="result-container">
                         <div id="jobAnalysisResult" class="result job-result">
                             <h3 class="result-title">Job Description Report</h3>
                         </div>
                     </div>
-                    <div class="action-container">
-                        <button type="button" onclick="matchProfiles()" class="match-button">Match Profiles</button>
+                    <div class="action-and-loading-container">
+                        <!-- Corrected: Combined class attributes for the button -->
+                        <button type="button" class="common-button match-button" onclick="matchProfiles()">Match</button>
+                        <!-- Loading indicator for match operation -->
+                        <div class="loading-indicator-section">
+                            <div class="loading-indicator match-loading-indicator"></div>
+                            <p class="loading-text match-loading-text"></p>
+                        </div>
                     </div>
                     <div id="matchResult" class="match-result"></div>
                 </div>
-            </section>
-            <div id="loadingIndicator" class="loading-indicator" style="display: none;"></div>
+            </section>            
         </main>
-        
     </div>
     
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
