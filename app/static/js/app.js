@@ -107,6 +107,9 @@ function analyzeProfile() {
             <p><strong>Improvement Suggestions:</strong><br>${Array.isArray(data.improvementSuggestions) ? data.improvementSuggestions.map(suggestion => `- ${suggestion}`).join('<br>') : data.improvementSuggestions || 'N/A'}</p>
             <p><strong>Career Suggestions:</strong><br>${Array.isArray(data.careerSuggestions) ? data.careerSuggestions.map(suggestion => `- ${suggestion}`).join('<br>') : 'N/A'}</p>
             `;
+        // Make the result container visible
+        const containerDiv = document.getElementById('profileContainer');
+        containerDiv.style.display = 'block'; // Or 'block', adjust as needed
         
         // Append the constructed content to the result div
         resultDiv.innerHTML += content;
@@ -179,6 +182,11 @@ function analyzeJob() {
         <p><strong>Company Overview:</strong> ${data.companyInfo ? data.companyInfo.overview || 'N/A' : 'N/A'}</p>
         <p><strong>Specialties:</strong> ${Array.isArray(data.companyInfo && data.companyInfo.specialties) ? data.companyInfo.specialties.join(', ') : 'Not available'}</p>
     `;
+
+        // Make the result container visible
+        const containerDiv = document.getElementById('jobContainer');
+        containerDiv.style.display = 'block'; // Or 'block', adjust as needed
+
         resultDiv.innerHTML = content;
 
         // Ensure the loading indicator reaches 100% before hiding
@@ -339,6 +347,7 @@ function matchProfiles() {
 function displayMatchResult(data) {
     console.log(data); // Log the data for debugging purposes
     const matchDiv = document.getElementById('matchResult');
+    matchDiv.style.display = 'block'; // Make the container visible
     // Extract the numerical value of the overall score for the color function
     const overallScore = parseInt(data["Overall Compatibility Score"], 10);
     const overallScoreColor = getScoreColor(overallScore);
@@ -370,6 +379,7 @@ function displayMatchResult(data) {
             <p style="text-align: justify; margin: 10px 0;">${data.Summary}</p>
         </div>
     `;
+
     matchDiv.innerHTML = content;
 }
 
@@ -397,50 +407,39 @@ function getScoreColor(score) {
 
 function generateMatchSection(title, sectionData) {
     const sectionColor = getScoreColor(sectionData["Percentage Match"]);
-
-    // Transform the array of suggestions into a single string with bullet points
+    
+    // Transform the array of suggestions into a single string with bullet points, or directly use the string
     let suggestionsContent;
     if (Array.isArray(sectionData["Suggestions"]) && sectionData["Suggestions"].length > 0) {
         suggestionsContent = sectionData["Suggestions"].map(suggestion => `- ${suggestion}`).join('<br>');
+    } else if (typeof sectionData["Suggestions"] === 'string') {
+        suggestionsContent = sectionData["Suggestions"];
     } else {
         suggestionsContent = 'N/A';
     }
 
+    let content = `<div style="text-align: center;"><strong>${title}</strong>: ${sectionData["Match Status"]} <span style="color: ${sectionColor};font-weight: bold;">${sectionData["Percentage Match"]}%</span></div>`;
+
     if (title === 'Skill Matching') {
         // Handle matched and unmatched skills content for "Skill Matching" section
-        let matchedSkillsContent = 'Not available', unmatchedSkillsContent = 'Not available';
-        if (Array.isArray(sectionData["Matched Skills"]) && sectionData["Matched Skills"].length > 0) {
-            matchedSkillsContent = sectionData["Matched Skills"].map(skill => `- ${skill}`).join('<br>');
-        }
-        if (Array.isArray(sectionData["Unmatched Skills"]) && sectionData["Unmatched Skills"].length > 0) {
-            unmatchedSkillsContent = sectionData["Unmatched Skills"].map(skill => `- ${skill}`).join('<br>');
-        }
+        let matchedSkillsContent = sectionData["Matched Skills"] ? sectionData["Matched Skills"].map(skill => `- ${skill}`).join('<br>') : 'Not available';
+        let unmatchedSkillsContent = sectionData["Unmatched Skills"] ? sectionData["Unmatched Skills"].map(skill => `- ${skill}`).join('<br>') : 'Not available';
 
-        return `
-        <div style="text-align: center;">
-            <strong>${title}</strong>: ${sectionData["Match Status"]}
-            <span style="color: ${sectionColor}; font-weight: bold;">
-                ${sectionData["Percentage Match"]}%
-            </span>
-        </div>
-        <div style="display: flex; justify-content: space-between;">
-            <div style="text-align: left;">
-                <strong>Matched Skills:</strong><br>${matchedSkillsContent}
+        content += `
+            <div style="display: flex; justify-content: space-between;">
+                <div style="text-align: left;">
+                    <strong>Matched Skills:</strong><br>${matchedSkillsContent}
+                </div>
+                <div style="text-align: right;">
+                    <strong>Unmatched Skills:</strong><br>${unmatchedSkillsContent}
+                </div>
             </div>
-            <div style="text-align: right;">
-                <strong>Unmatched Skills:</strong><br>${unmatchedSkillsContent}
-            </div>
-        </div>
-        <hr>
-    `;
-    
-    } else {
-        // For other sections, display the suggestions
-        return `
-            <div style="text-align: center;"><strong>${title}</strong>: ${sectionData["Match Status"]} <span style="color: ${sectionColor};font-weight: bold;">${sectionData["Percentage Match"]}%</span></div>
-            <p style="text-align: left;"><strong>Suggestions:</strong><br>${suggestionsContent}</p>
             <hr>
         `;
-
+    } else {
+        // For other sections, display the suggestions
+        content += `<p style="text-align: left;"><strong>Suggestions:</strong><br>${suggestionsContent}</p><hr>`;
     }
+
+    return content;
 }

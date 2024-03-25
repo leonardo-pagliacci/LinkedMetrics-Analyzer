@@ -229,7 +229,7 @@ button:focus-visible, select:focus-visible, input:focus-visible {
 
 
 .result-container {
-    display:flex; /* Initially hidden */
+    display:none; /* Initially hidden */
     flex: 1; /* Allows the containers to grow and take up equal width */
     flex-direction: column; /* Stacks child elements vertically */
     justify-content: flex-start; /* Aligns children at the start */
@@ -238,19 +238,20 @@ button:focus-visible, select:focus-visible, input:focus-visible {
     background-color: #e9ecef; /* Sets the background color */
     box-sizing: border-box; /* Includes padding and border in the element's total width and height */
     margin: 10px; /* Adds some space around each container */
+    min-width: 300px; /* Minimum width to ensure containers do not become too small */
+    max-width: 50%; /* Maximum width to prevent taking full screen width */
 }
 
 
 .result {
-    display: none;
-    width: 100%; /* Take up full width of the result container */
-    background-color: #e9ecef;
-    padding: 15px;
-    border-radius: 5px;
-    box-sizing: border-box;
-    overflow-y: auto; /* Makes content scrollable if it overflows the y-axis */
-
+    display: none; /* Hide the content initially */
+    background-color: #e9ecef; /* Sets the background color */
+    padding: 15px; /* Adds padding inside the container */
+    border-radius: 5px; /* Rounds the corners */
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
 }
+
+
 
 .result-title {
     color: #0077b5; /* LinkedIn blue for title */
@@ -287,7 +288,7 @@ button:focus-visible, select:focus-visible, input:focus-visible {
 }
 
 .match-result {
-    display: block; /* Initially hidden */
+    display: none; /* Initially hidden */
     width: 100%;
     background-color: #e9ecef;
     padding: 15px;
