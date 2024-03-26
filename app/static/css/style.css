@@ -106,8 +106,11 @@ body {
 
 .input-form {
     display: flex;
+    margin-top: 20px;
+    padding: 25px;
     margin: 0 5%; /* Increased margin for more spacing */
-    flex-wrap: wrap;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);    flex-wrap: wrap;
     justify-content: space-between; /* Ensure spacing between columns */
 }
 
@@ -137,11 +140,48 @@ body {
     width: 100%; /* Full width for alignment */
 }
 
-/* Adjust button width to match input/select fields */
 .input-option button {
-    width: 145px; /* Match input/select field width */
-    margin: 10px auto;
+    background-color: var(--main-color);
+    color: white;
+    padding: 8px 16px; /* Reduced padding for a smaller button size */
+    border: 2px solid transparent; /* Keeps the layout stable on focus */
+    margin: 8px auto; /* Centered with vertical spacing */
+    border-radius: 4px; /* Standard border-radius for a sleek look */
+    cursor: pointer;
+    font-size: 14px; /* Smaller font size for compact buttons */
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    text-align: center;
+    width: 150px;
+    min-width: 120px; /* Adjusted minimum width for consistency */
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    display: block; /* Allows the button to center and apply margins */
 }
+
+.input-option button:hover {
+    background-color: var(--hover-color);
+    transform: translateY(-1px); /* Slight lift effect */
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.12); /* Enhanced shadow for hover effect */
+}
+
+.input-option button:active, .input-option .button-clicked {
+    background-color: var(--active-color);
+    box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.15); /* Inner shadow for a "pressed" effect */
+    transform: translateY(0); /* Neutral position for active state */
+}
+
+.input-option button:focus-visible {
+    outline: none;
+    border: 2px solid var(--hover-color); /* Substitutes outline for a border to indicate focus */
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4), 0 0 0 4px var(--main-color); /* Dual shadow for clear focus indication */
+}
+
+.input-option button:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
 
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
@@ -193,28 +233,43 @@ select:focus, input[type="text"]:focus, input[type="file"]:focus {
 button {
     background-color: var(--main-color);
     color: white;
-    padding: 10px 15px;
-    border: none;
-    margin: 0.5px auto;
-    border-radius: 4px;
+    padding: 8px 16px; /* Reduced padding for a smaller button size */
+    border: 2px solid transparent; /* Keeps the layout stable on focus */
+    margin: 0.25px auto; /* Standardized margin for consistent spacing */
+    border-radius: 4px; /* Standard border-radius for a sleek look */
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.25s, transform 0.2s;
-    width: 145px; 
+    font-size: 14px; /* Smaller font size for compact buttons */
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    display: block; /* Allows for margin and transformation */
+    text-align: center;
+    width: 150px;
+    min-width: 120px; /* Minimum width for legibility */
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 button:hover {
     background-color: var(--hover-color);
-    transform: translateY(-2px) scale(1.02);
+    transform: translateY(-1px); /* Slight lift effect */
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.12); /* Enhanced shadow for hover effect */
 }
 
 button:active, .button-clicked {
     background-color: var(--active-color);
+    box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.15); /* Inner shadow for a "pressed" effect */
+    transform: translateY(0); /* Neutral position for active state */
 }
 
-button:focus-visible, select:focus-visible, input:focus-visible {
-    outline: 3px solid var(--hover-color);
-    outline-offset: 2px;
+button:focus-visible {
+    outline: none;
+    border: 2px solid var(--hover-color); /* Substitutes outline for a border to indicate focus */
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4), 0 0 0 4px var(--main-color); /* Dual shadow for clear focus indication */
+}
+
+button:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    box-shadow: none;
 }
 
 
@@ -227,43 +282,62 @@ button:focus-visible, select:focus-visible, input:focus-visible {
     flex-wrap: wrap; /* Allow wrapping if necessary */
 }
 
-
 .result-container {
-    display:none; /* Initially hidden */
-    flex: 1; /* Allows the containers to grow and take up equal width */
-    flex-direction: column; /* Stacks child elements vertically */
-    justify-content: flex-start; /* Aligns children at the start */
-    padding: 15px; /* Adds padding inside the container */
-    border-radius: 5px; /* Rounds the corners */
-    background-color: #e9ecef; /* Sets the background color */
-    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
-    margin: 10px; /* Adds some space around each container */
-    min-width: 300px; /* Minimum width to ensure containers do not become too small */
-    max-width: 50%; /* Maximum width to prevent taking full screen width */
+    display: none; /* Hidden by default, shown when active */
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 20px;
+    border-radius: 8px; /* Softer rounded corners */
+    background-color: #fff; /* White background for cleanliness */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+    box-sizing: border-box;
+    margin: 20px; /* Increase spacing around containers */
+    min-width: 300px;
+    max-width: 600px; /* Adjust max width for better readability */
+    border: 1px solid #dee2e6; /* Light border for subtle definition */
 }
-
 
 .result {
-    display: none; /* Hide the content initially */
-    background-color: #e9ecef; /* Sets the background color */
-    padding: 15px; /* Adds padding inside the container */
-    border-radius: 5px; /* Rounds the corners */
-    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+    display: block; /* Ensure content is shown when container is active */
+    background-color: #fff; /* Consistent with container for a seamless look */
+    padding: 20px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-top: 10px; /* Space between title and content */
 }
-
-
 
 .result-title {
-    color: #0077b5; /* LinkedIn blue for title */
-    margin-bottom: 15px; /* Space below the title */
+    font-size: 20px; /* Larger, more prominent title */
+    font-weight: 500; /* Medium font weight for readability */
+    color: var(--main-color); /* Use the predefined LinkedIn blue */
+    margin-bottom: 20px; /* Increased space below the title */
 }
+
+/* Enhance lists within results for better visual hierarchy */
+.result ul {
+    padding-left: 20px; /* Indentation for list items */
+    list-style-type: disc; /* Disc style for list items */
+}
+
+.result li {
+    margin-bottom: 10px; /* Space between list items */
+}
+
+/* Improve typography within the results */
+.result p, .result div {
+    line-height: 1.6; /* Improved line height for readability */
+    color: #4a4a4a; /* Slightly darker text for contrast */
+}
+
+
 
 /* Adjust width of result containers for smaller screens */
 @media (max-width: 768px) {
     .result-container {
         flex-basis: 100%; /* Set full width for smaller screens */
         margin: 10px 0; /* Adjust margin as needed */
-        display: flex; /* or display: block; based on your preference */
+        display: none; /* or display: block; based on your preference */
     }
 }
 
@@ -288,29 +362,49 @@ button:focus-visible, select:focus-visible, input:focus-visible {
 }
 
 .match-result {
-    display: none; /* Initially hidden */
+    display: none; /* Keep this hidden initially, show upon action */
     width: 100%;
-    background-color: #e9ecef;
-    padding: 15px;
-    border-radius: 5px;
+    background-color: #fff; /* Use white background for cleanliness */
+    padding: 20px; /* Increased padding for better content breathing space */
+    border-radius: 8px; /* Softer rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
     box-sizing: border-box;
-    margin-top: 20px;
+    margin-top: 20px; /* Increased space from the preceding elements */
+    border: 1px solid #dee2e6; /* Light border for subtle definition */
+    color: #333; /* Consistent text color for readability */
+    font-size: 16px; /* Slightly larger font size for readability */
 }
 
-.loading-indicators {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
+/* Enhancements for heading within match results */
+.match-result h3 {
+    font-size: 20px; /* Larger, more prominent heading */
+    color: var(--main-color); /* Utilize the LinkedIn blue for headings */
+    margin-bottom: 15px; /* Space below the heading */
+    font-weight: 500; /* Medium weight for the heading */
 }
 
-.loading-indicator-section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 10px 0;
+/* Subtitle or additional headings within match results */
+.match-result h4 {
+    font-size: 18px; /* Subtle size difference from the main heading */
+    color: var(--main-color);
+    margin-top: 10px; /* Space above the subtitle */
+    margin-bottom: 10px; /* Space below the subtitle */
+    font-weight: normal; /* Keep the weight normal to differentiate from the main title */
 }
+
+/* List style within match results for clarity */
+.match-result ul {
+    list-style-type: disc; /* Disc style for clarity */
+    padding-left: 20px; /* Proper indentation for the list */
+    margin-top: 10px; /* Space above the list */
+}
+
+.match-result li {
+    margin-bottom: 5px; /* Space between list items */
+}
+
+
+
 
 .loading-indicator {
     background-color: var(--main-color); /* Color of the loading bar */
@@ -324,10 +418,6 @@ button:focus-visible, select:focus-visible, input:focus-visible {
     width: 100%; /* Full width to show loading is complete */
 }
 
-/* Additional styling to visually support the loading indicators */
-.loading-indicators {
-    margin-top: 20px;
-}
 
 .loading-text {
     margin-left: 10px; /* Space between the loading bar and the text */
@@ -336,7 +426,6 @@ button:focus-visible, select:focus-visible, input:focus-visible {
     /* Use visibility or display to hide/show the text */
 }
 
-/* Specific styling for buttons, inputs, and selects remains unchanged */
 
 @media (max-width: 768px) {
     .title {

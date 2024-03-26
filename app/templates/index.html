@@ -39,7 +39,11 @@
                         <div id="resumeInput" class="input-option" style="display: none;">
                             <input type="file" id="resume" name="resume"/>
                             <button type="button" class="common-button" onclick="uploadAndAnalyzeResume()">Analyze Resume</button>
-                            <!-- Loading indicator can be added here if needed for resume analysis -->
+                            <!-- Loading indicator for resume analysis -->
+                            <div class="loading-indicator-section">
+                                <div class="loading-indicator resume-analysis-loading-indicator"></div>
+                                <p class="loading-text resume-analysis-loading-text"></p>
+                            </div>
                         </div>
                     </div>
                     

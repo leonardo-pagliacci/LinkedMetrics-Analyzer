@@ -1,4 +1,4 @@
-function startLoadingIndicator(action, duration = 30000) {
+function startLoadingIndicator(action, duration = 35000) {
     const updateInterval = 400; // Time between updates in milliseconds.
     let currentStep = 0;
     const totalSteps = duration / updateInterval;
@@ -211,7 +211,8 @@ function analyzeJob() {
 
 
 function uploadAndAnalyzeResume() {
-    showLoadingIndicator(true);
+
+    const { indicator, text, progressInterval } = startLoadingIndicator('resume-analysis');
     const button = document.querySelector('#resumeInput button');
     button.classList.add('button-clicked');
 
@@ -219,8 +220,10 @@ function uploadAndAnalyzeResume() {
     const resumeFile = document.getElementById('resume').files[0];
     if (!resumeFile) {
         alert("Please select a resume file to upload.");
-        showLoadingIndicator(false); // Hide loading indicator if no file selected
-        button.classList.remove('button-clicked'); // Reset button color if no file selected
+        // Ensure the loading indicator is stopped if no file is selected
+        clearInterval(progressInterval);
+        stopLoadingIndicator('resume-analysis');
+        button.classList.remove('button-clicked');
         return;
     }
     formData.append('resume', resumeFile);
@@ -263,6 +266,8 @@ function uploadAndAnalyzeResume() {
         <p><strong>Career Suggestions:</strong><br>${Array.isArray(data.careerSuggestions) ? data.careerSuggestions.map(suggestion => `- ${suggestion}`).join('<br>') : 'N/A'}</p>
         `;
         resultDiv.innerHTML = content;
+        updateLoadingProgress(indicator, text, 100);
+
     })
     .catch(error => {
         console.error('Error:', error);
@@ -270,7 +275,9 @@ function uploadAndAnalyzeResume() {
         resultDiv.innerHTML = `<p>Error occurred: ${error.message}</p>`;
     })
     .finally(() => {
-        showLoadingIndicator(false);
+        // Stop the loading indicator after content is rendered or in case of error
+        clearInterval(progressInterval);
+        stopLoadingIndicator('resume-analysis');
         button.classList.remove('button-clicked');
     });
 }
@@ -357,7 +364,7 @@ function displayMatchResult(data) {
         font-weight: bold;
         text-align: center;
         padding: 20px;
-        border: 1px solid #000000; /* Thinner Black border */
+        border: 1px;
         border-radius: 10px;
         margin-bottom: 20px;
         box-sizing: border-box;
@@ -370,7 +377,7 @@ function displayMatchResult(data) {
         ${generateMatchSection('Language and International Experience', data.Details['Language and International Experience'])}
         ${generateMatchSection('Growth Potential', data.Details['Growth Potential'])}
         <div style="
-        border: 1px solid #000000;
+        border: 1px;
         padding: 10px;
         border-radius: 10px;
         margin-bottom: 20px;
