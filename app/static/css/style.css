@@ -76,7 +76,7 @@ body {
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     border: 0;
-    white-space: nowrap; /* added line to keep the content on a single line */
+    white-space: nowrap; 
 }
 
 .container {
@@ -88,36 +88,34 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Wrapping both profile and job analysis sections */
 .profile-analysis,
 .job-analysis {
-    width: 48%; /* Adjust based on the container's width to fit side by side */
-    margin: 0 3%; /* Increased margin for more spacing */
+    width: 48%; 
+    margin: 0 3%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align items to the start */
+    align-items: flex-start;
 }
 
 .form-row {
     display: flex;
-    justify-content: space-between; /* Space out the child elements */
-    align-items: flex-start; /* Align items at their start line */
+    justify-content: space-between;
+    align-items: flex-start; 
 }
 
 .input-form {
     display: flex;
     margin-top: 20px;
     padding: 25px;
-    margin: 0 5%; /* Increased margin for more spacing */
+    margin: 0 5%; 
     border-radius: 10px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);    flex-wrap: wrap;
-    justify-content: space-between; /* Ensure spacing between columns */
+    justify-content: space-between; 
 }
 
-/* Adjust widths for responsive design */
 .form-section, .profile-analysis, .job-analysis {
-    flex: 1 1 48%; /* Adjust this to manage the space distribution */
-    margin: 0 1%; /* Small margin for spacing */
+    flex: 1 1 48%; 
+    margin: 0 1%;
     display: flex;
     flex-direction: column;
 }
@@ -126,7 +124,7 @@ body {
     width: 100%;
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px; /* Space between form elements */
+    margin-bottom: 20px; 
 }
 
 .select-wrapper .placeholder-select,
@@ -134,45 +132,45 @@ body {
 .input-option select,
 .button-container button {
     padding: 10px;
-    margin-bottom: 10px; /* Space below each element */
+    margin-bottom: 10px; 
     border: 2px solid var(--main-color);
     border-radius: 4px;
-    width: 100%; /* Full width for alignment */
+    width: 100%;
 }
 
 .input-option button {
     background-color: var(--main-color);
     color: white;
-    padding: 8px 16px; /* Reduced padding for a smaller button size */
-    border: 2px solid transparent; /* Keeps the layout stable on focus */
-    margin: 8px auto; /* Centered with vertical spacing */
-    border-radius: 4px; /* Standard border-radius for a sleek look */
+    padding: 8px 16px; 
+    border: 2px solid transparent; 
+    margin: 8px auto; 
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 14px; /* Smaller font size for compact buttons */
+    font-size: 14px; 
     transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
     text-align: center;
     width: 150px;
-    min-width: 120px; /* Adjusted minimum width for consistency */
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    display: block; /* Allows the button to center and apply margins */
+    min-width: 120px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    display: block;
 }
 
 .input-option button:hover {
     background-color: var(--hover-color);
-    transform: translateY(-1px); /* Slight lift effect */
-    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.12); /* Enhanced shadow for hover effect */
+    transform: translateY(-1px);
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.12); 
 }
 
 .input-option button:active, .input-option .button-clicked {
     background-color: var(--active-color);
-    box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.15); /* Inner shadow for a "pressed" effect */
-    transform: translateY(0); /* Neutral position for active state */
+    box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.15); 
+    transform: translateY(0); 
 }
 
 .input-option button:focus-visible {
     outline: none;
-    border: 2px solid var(--hover-color); /* Substitutes outline for a border to indicate focus */
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4), 0 0 0 4px var(--main-color); /* Dual shadow for clear focus indication */
+    border: 2px solid var(--hover-color); 
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4), 0 0 0 4px var(--main-color);
 }
 
 .input-option button:disabled {
@@ -183,35 +181,33 @@ body {
 }
 
 
-/* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
     .profile-analysis,
     .job-analysis {
-        width: 100%; /* Full width for mobile */
-        margin: 0 0 20px 0; /* Stack vertically with spacing between */
+        width: 100%;
+        margin: 0 0 20px 0; 
     }
 
     .input-option button {
-        width: 145px; /* Ensure button width matches input/select on mobile */
+        width: 145px;
     }
 }
 
 .button-container {
     display: flex;
-    justify-content: center; /* Center the buttons horizontally */
+    justify-content: center;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .form-section, .profile-analysis, .job-analysis {
-        flex: 1 1 100%; /* Full width for smaller screens */
-        margin: 0 0 20px; /* Adjust margin for vertical stacking */
+        flex: 1 1 100%; 
+        margin: 0 0 20px;
     }
 
     .input-option input[type="text"],
     .input-option select,
     .button-container button {
-        padding: 10px; /* Ensure padding is consistent on smaller screens */
+        padding: 10px; 
     }
 }
 
@@ -233,36 +229,36 @@ select:focus, input[type="text"]:focus, input[type="file"]:focus {
 button {
     background-color: var(--main-color);
     color: white;
-    padding: 8px 16px; /* Reduced padding for a smaller button size */
-    border: 2px solid transparent; /* Keeps the layout stable on focus */
-    margin: 0.25px auto; /* Standardized margin for consistent spacing */
-    border-radius: 4px; /* Standard border-radius for a sleek look */
+    padding: 8px 16px; 
+    border: 2px solid transparent; 
+    margin: 0.25px auto; 
+    border-radius: 4px; 
     cursor: pointer;
-    font-size: 14px; /* Smaller font size for compact buttons */
+    font-size: 14px;
     transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
-    display: block; /* Allows for margin and transformation */
+    display: block; 
     text-align: center;
     width: 150px;
-    min-width: 120px; /* Minimum width for legibility */
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    min-width: 120px; 
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1); 
 }
 
 button:hover {
     background-color: var(--hover-color);
-    transform: translateY(-1px); /* Slight lift effect */
-    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.12); /* Enhanced shadow for hover effect */
+    transform: translateY(-1px); 
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.12); 
 }
 
 button:active, .button-clicked {
     background-color: var(--active-color);
-    box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.15); /* Inner shadow for a "pressed" effect */
-    transform: translateY(0); /* Neutral position for active state */
+    box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.15); 
+    transform: translateY(0); 
 }
 
 button:focus-visible {
     outline: none;
-    border: 2px solid var(--hover-color); /* Substitutes outline for a border to indicate focus */
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4), 0 0 0 4px var(--main-color); /* Dual shadow for clear focus indication */
+    border: 2px solid var(--hover-color);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4), 0 0 0 4px var(--main-color); 
 }
 
 button:disabled {
@@ -275,69 +271,69 @@ button:disabled {
 
 .analysis-container {
     display: flex;
-    flex-direction: row; /* Ensure children are side by side */
-    justify-content: space-around; /* Adjust based on your layout */
-    align-items: stretch; /* Stretch children to fill the container height */
-    width: 100%; /* Ensure full width */
-    flex-wrap: wrap; /* Allow wrapping if necessary */
+    flex-direction: row; 
+    justify-content: space-around; 
+    align-items: stretch; 
+    width: 100%;
+    flex-wrap: wrap; 
 }
 
 .result-container {
-    display: none; /* Hidden by default, shown when active */
+    display: none; 
     flex: 1;
     flex-direction: column;
     justify-content: flex-start;
     padding: 20px;
-    border-radius: 8px; /* Softer rounded corners */
-    background-color: #fff; /* White background for cleanliness */
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+    border-radius: 8px; 
+    background-color: #fff;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
     box-sizing: border-box;
-    margin: 20px; /* Increase spacing around containers */
+    margin: 20px;
     min-width: 300px;
-    max-width: 600px; /* Adjust max width for better readability */
-    border: 1px solid #dee2e6; /* Light border for subtle definition */
+    max-width: 600px;
+    border: 1px solid #dee2e6;
 }
 
 .result {
-    display: block; /* Ensure content is shown when container is active */
-    background-color: #fff; /* Consistent with container for a seamless look */
+    display: block; 
+    background-color: #fff; 
     padding: 20px;
     border-radius: 8px;
     box-sizing: border-box;
-    margin-top: 10px; /* Space between title and content */
+    margin-top: 10px; 
 }
 
 .result-title {
-    font-size: 20px; /* Larger, more prominent title */
-    font-weight: 500; /* Medium font weight for readability */
-    color: var(--main-color); /* Use the predefined LinkedIn blue */
-    margin-bottom: 20px; /* Increased space below the title */
+    font-size: 20px; 
+    font-weight: 500;
+    color: var(--main-color);
+    margin-bottom: 20px;
 }
 
-/* Enhance lists within results for better visual hierarchy */
+
 .result ul {
-    padding-left: 20px; /* Indentation for list items */
-    list-style-type: disc; /* Disc style for list items */
+    padding-left: 20px;
+    list-style-type: disc;
 }
 
 .result li {
-    margin-bottom: 10px; /* Space between list items */
+    margin-bottom: 10px; 
 }
 
-/* Improve typography within the results */
+
 .result p, .result div {
-    line-height: 1.6; /* Improved line height for readability */
-    color: #4a4a4a; /* Slightly darker text for contrast */
+    line-height: 1.6;
+    color: #4a4a4a; 
 }
 
 
 
-/* Adjust width of result containers for smaller screens */
+
 @media (max-width: 768px) {
     .result-container {
-        flex-basis: 100%; /* Set full width for smaller screens */
-        margin: 10px 0; /* Adjust margin as needed */
-        display: none; /* or display: block; based on your preference */
+        flex-basis: 100%; 
+        margin: 10px 0;
+        display: none; 
     }
 }
 
@@ -348,7 +344,7 @@ button:disabled {
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
-    width: 100%; /* Ensure it takes the full width */
+    width: 100%; 
 
 }
 
@@ -357,73 +353,73 @@ button:disabled {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px 0; /* Corrected margin for top and bottom */
+    margin: 10px 0; 
 
 }
 
 .match-result {
-    display: none; /* Keep this hidden initially, show upon action */
+    display: none; 
     width: 100%;
-    background-color: #fff; /* Use white background for cleanliness */
-    padding: 20px; /* Increased padding for better content breathing space */
-    border-radius: 8px; /* Softer rounded corners */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     box-sizing: border-box;
-    margin-top: 20px; /* Increased space from the preceding elements */
-    border: 1px solid #dee2e6; /* Light border for subtle definition */
-    color: #333; /* Consistent text color for readability */
-    font-size: 16px; /* Slightly larger font size for readability */
+    margin-top: 20px; 
+    border: 1px solid #dee2e6;
+    color: #333; 
+    font-size: 16px;
 }
 
-/* Enhancements for heading within match results */
+
 .match-result h3 {
-    font-size: 20px; /* Larger, more prominent heading */
-    color: var(--main-color); /* Utilize the LinkedIn blue for headings */
-    margin-bottom: 15px; /* Space below the heading */
-    font-weight: 500; /* Medium weight for the heading */
-}
-
-/* Subtitle or additional headings within match results */
-.match-result h4 {
-    font-size: 18px; /* Subtle size difference from the main heading */
+    font-size: 20px;
     color: var(--main-color);
-    margin-top: 10px; /* Space above the subtitle */
-    margin-bottom: 10px; /* Space below the subtitle */
-    font-weight: normal; /* Keep the weight normal to differentiate from the main title */
+    margin-bottom: 15px;
+    font-weight: 500;
 }
 
-/* List style within match results for clarity */
+
+.match-result h4 {
+    font-size: 18px;
+    color: var(--main-color);
+    margin-top: 10px; 
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+
 .match-result ul {
-    list-style-type: disc; /* Disc style for clarity */
-    padding-left: 20px; /* Proper indentation for the list */
-    margin-top: 10px; /* Space above the list */
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 10px;
 }
 
 .match-result li {
-    margin-bottom: 5px; /* Space between list items */
+    margin-bottom: 5px;
 }
 
 
 
 
 .loading-indicator {
-    background-color: var(--main-color); /* Color of the loading bar */
+    background-color: var(--main-color); 
     height: 4px;
-    width: 0%; /* Start with 0 width */
-    visibility: visible; /* Make it visible */
-    transition: width 0.5s ease; /* Smooth transition for width changes */
+    width: 0%;
+    visibility: visible;
+    transition: width 0.5s ease;
 }
 
 .loading-indicator.show {
-    width: 100%; /* Full width to show loading is complete */
+    width: 100%;
 }
 
 
 .loading-text {
-    margin-left: 10px; /* Space between the loading bar and the text */
+    margin-left: 10px;
     font-size: 14px;
     color: var(--main-color);
-    /* Use visibility or display to hide/show the text */
+    
 }
 
 

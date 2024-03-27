@@ -1,5 +1,7 @@
-function startLoadingIndicator(action, duration = 35000) {
-    const updateInterval = 400; // Time between updates in milliseconds.
+
+// Start a loading indicator for a given action. It updates the progress at regular intervals until the specified duration elapses or the operation completes.
+function startLoadingIndicator(action, duration = 40000) {
+    const updateInterval = 400; 
     let currentStep = 0;
     const totalSteps = duration / updateInterval;
 
@@ -17,16 +19,15 @@ function startLoadingIndicator(action, duration = 35000) {
     // Update progress at regular intervals.
     const progressInterval = setInterval(() => {
         currentStep++;
-        const percentage = Math.min((currentStep / totalSteps) * 100, 100); // Ensures max of 100%.
+        const percentage = Math.min((currentStep / totalSteps) * 100, 100); 
         updateLoadingProgress(indicator, text, percentage);
 
         if (currentStep >= totalSteps) {
             clearInterval(progressInterval);
-            // Can optionally hide the indicator here or reset it for a new action.
         }
     }, updateInterval);
 
-    return { indicator, text, progressInterval }; // Return the indicator, text, and progressInterval
+    return { indicator, text, progressInterval };
 }
 
 // Resets or hides the loading indicator for a given action.
@@ -109,7 +110,7 @@ function analyzeProfile() {
             `;
         // Make the result container visible
         const containerDiv = document.getElementById('profileContainer');
-        containerDiv.style.display = 'block'; // Or 'block', adjust as needed
+        containerDiv.style.display = 'block';
         
         // Append the constructed content to the result div
         resultDiv.innerHTML += content;
@@ -156,12 +157,12 @@ function analyzeJob() {
         return response.json();
     })
     .then(data => {
-        console.log(data); // Log the data for debugging purposes
+        console.log(data); 
+
         window.jobAnalysisResult = data; // Save the job analysis result for potential future use
         const resultDiv = document.getElementById('jobAnalysisResult');
         resultDiv.style.display = 'block';
 
-        // Dynamically add the subtitle
         let content = `
         <h3 class="result-title">Job Description Report</h3>
         <p><strong>Job Title:</strong> ${data.jobTitle || 'N/A'}</p>
@@ -185,7 +186,7 @@ function analyzeJob() {
 
         // Make the result container visible
         const containerDiv = document.getElementById('jobContainer');
-        containerDiv.style.display = 'block'; // Or 'block', adjust as needed
+        containerDiv.style.display = 'block'; 
 
         resultDiv.innerHTML = content;
 
@@ -239,7 +240,8 @@ function uploadAndAnalyzeResume() {
         return response.json();
     })
     .then(data => {
-        console.log(data); // Log the data for debugging purposes
+        console.log(data); 
+        
         window.profileAnalysisResult = data; // Save the analysis result for potential future use
         const resultDiv = document.getElementById('profileAnalysisResult');
         resultDiv.innerHTML = ''; // Clear previous content to ensure no overlap of data
@@ -281,7 +283,6 @@ function uploadAndAnalyzeResume() {
         button.classList.remove('button-clicked');
     });
 }
-
 
 function toggleInputMethod() {
     var inputType = document.getElementById('inputType').value;
@@ -333,8 +334,10 @@ function matchProfiles() {
     })
     .then(data => {
         displayMatchResult(data); // Display the match result
+
         // Ensure the loading indicator reaches 100% before hiding
         updateLoadingProgress(indicator, text, 100);
+
         // Stop the loading indicator after content is rendered
         clearInterval(progressInterval);
         stopLoadingIndicator('match');
@@ -353,8 +356,10 @@ function matchProfiles() {
 
 function displayMatchResult(data) {
     console.log(data); // Log the data for debugging purposes
+
     const matchDiv = document.getElementById('matchResult');
-    matchDiv.style.display = 'block'; // Make the container visible
+    matchDiv.style.display = 'block'; 
+
     // Extract the numerical value of the overall score for the color function
     const overallScore = parseInt(data["Overall Compatibility Score"], 10);
     const overallScoreColor = getScoreColor(overallScore);
@@ -392,14 +397,14 @@ function displayMatchResult(data) {
 
 function getScoreColor(score) {
     const colorThresholds = [
-        { threshold: 90, color: '#2E8B57' }, // Sea Green
-        { threshold: 76, color: '#3CB371' }, // Medium Sea Green
-        { threshold: 60, color: '#FFD700' }, // Contrasting Gold
-        { threshold: 50, color: '#FFA500' }  // Modern Orange for scores between 60 and 75
+        { threshold: 90, color: '#4CAF50' }, // Green
+        { threshold: 76, color: '#8BC34A' }, // Light Green
+        { threshold: 60, color: '#FFEB3B' }, // Yellow
+        { threshold: 50, color: '#FF9800' }  // Orange
     ];
 
-    // Default to Dark Red for scores below the lowest threshold
-    const lowestThresholdColor = '#D32F2F'; // Dark Red
+    // Default to Red for scores below the lowest threshold
+    const lowestThresholdColor = '#F44336'; // Red
 
     // Find the color corresponding to the score
     for (let i = 0; i < colorThresholds.length; i++) {
@@ -410,6 +415,7 @@ function getScoreColor(score) {
 
     return lowestThresholdColor;
 }
+
 
 
 function generateMatchSection(title, sectionData) {

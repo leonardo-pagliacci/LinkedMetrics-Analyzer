@@ -1,8 +1,8 @@
-# LinkedIn Analyzer Application
+# LinkedMetrics Analyzer 
 
 ## Overview
 
-LinkedIn Analyzer is a web application built using Flask, designed to perform in-depth analysis on LinkedIn profiles, job descriptions, and resumes. It leverages OpenAI's language models to provide detailed insights, making it a valuable tool for individuals looking to optimize LinkedIn profiles, better understand job descriptions, and match job seekers with suitable opportunities.
+LinkedMetrics Analyzer is a groundbreaking web application crafted within the Flask framework, aimed at helping how professionals interact with LinkedIn. At its core, LinkedMetrics Analyzer harnesses the advanced capabilities of OpenAI's language models to conduct meticulous analyses of LinkedIn profiles, job descriptions, and resumes. This application stands out as an indispensable tool for individuals and professionals striving to enhance their LinkedIn presence, decode intricate job descriptions, and foster optimal matches between job seekers and potential career opportunities.
 
 ## Core Features
 
@@ -18,14 +18,14 @@ The application's structure provides a clean separation of concerns:
 ```
 app/
     /static/js/
-        app.js
+        - app.js (Handles UI interactions and AJAX requests)
     /templates/
-        index.html
-app.py
-linkedin_extractor.py
-prompt_engineering.py
-requirements.txt
-.env.example
+        - index.html (Main application interface)
+- app.py (Flask server and routing logic)
+- linkedin_extractor.py (LinkedIn data extraction logic)
+- prompt_engineering.py (OpenAI model integration for analysis)
+- requirements.txt (Dependencies)
+- .env.example (API keys and credentials template)
 ```
 
 ### Detailed File Overview

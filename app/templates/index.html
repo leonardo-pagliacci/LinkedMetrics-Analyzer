@@ -9,24 +9,31 @@
 </head>
 <body>
     <div class="container">
+        <!-- Header section with app title and description -->
         <header>
             <h1 class="title">LinkedMetrics</h1>
             <p class="subtitle">An AI-powered web app for analyzing, parsing, and matching LinkedIn profiles with job descriptions.</p>
         </header>
         
         <main>
+            <!-- Section for input form -->
             <section aria-labelledby="formSection">
+                <!-- Accessibility: Visually hidden heading for the form section -->
                 <h2 id="formSection" class="visually-hidden">Profile and Job Analysis Form</h2>
+                <!-- Subtitle for the form section -->
                 <div class="section-subtitle-wrapper">
                     <p class="section-subtitle">Enter LinkedIn Data</p>
                 </div>
+                <!-- Form for inputting LinkedIn profile or resume and job URL -->
                 <form id="inputForm" class="input-form" enctype="multipart/form-data">
                     <!-- Wrapper for Profile Analysis -->
                     <div class="profile-analysis">
+                        <!-- Dropdown to select input type (LinkedIn URL or resume upload) -->
                         <select id="inputType" onchange="toggleInputMethod()">
                             <option value="linkedin">LinkedIn Profile</option>
                             <option value="resume">PDF Resume</option>
                         </select>
+                        <!-- Input field for LinkedIn profile URL -->
                         <div id="linkedinInput" class="input-option">
                             <input type="text" id="profile_url" placeholder="Enter LinkedIn profile URL"/>
                             <button type="button" class="common-button" onclick="analyzeProfile()">Analyze Profile</button>
@@ -36,6 +43,7 @@
                                 <p class="loading-text profile-analysis-loading-text"></p>
                             </div>
                         </div>
+                        <!-- Input field for resume upload, initially hidden -->
                         <div id="resumeInput" class="input-option" style="display: none;">
                             <input type="file" id="resume" name="resume"/>
                             <button type="button" class="common-button" onclick="uploadAndAnalyzeResume()">Analyze Resume</button>
@@ -47,7 +55,7 @@
                         </div>
                     </div>
                     
-                    <!-- Wrapper for Job Analysis -->
+                    <!-- Job analysis input for entering LinkedIn job URL -->
                     <div class="job-analysis">
                         <input type="text" id="job_url" placeholder="Enter LinkedIn job URL"/>
                         <button type="button" class="common-button" onclick="analyzeJob()">Analyze Job</button>
@@ -62,23 +70,28 @@
             
             <!-- Section for Analysis Results and Matching -->
             <section aria-labelledby="resultsSection">
+                <!-- Accessibility: Visually hidden heading for results section -->
                 <h2 id="resultsSection" class="visually-hidden">Analysis Results</h2>
+                <!-- Subtitle for the results section -->
                 <div class="section-subtitle-wrapper">
                     <p class="section-subtitle">Analysis Results</p>
                 </div>
+                 <!-- Containers for displaying profile analysis, job description analysis, and match results -->
                 <div class="analysis-container">
+                    <!-- Container for profile analysis results -->
                     <div id="profileContainer" class="result-container">
                         <div id="profileAnalysisResult" class="result profile-result">
                             <h3 class="result-title">Profile Report</h3>
                         </div>
                     </div>
+                    <!-- Container for job analysis results -->
                     <div id="jobContainer" class="result-container">
                         <div id="jobAnalysisResult" class="result job-result">
                             <h3 class="result-title">Job Description Report</h3>
                         </div>
                     </div>
+                    <!-- Action area for matching profiles with job descriptions -->
                     <div class="action-and-loading-container">
-                        <!-- Corrected: Combined class attributes for the button -->
                         <button type="button" class="common-button match-button" onclick="matchProfiles()">Match</button>
                         <!-- Loading indicator for match operation -->
                         <div class="loading-indicator-section">
@@ -86,12 +99,14 @@
                             <p class="loading-text match-loading-text"></p>
                         </div>
                     </div>
+                    <!-- Container for displaying the match results -->
                     <div id="matchResult" class="match-result"></div>
                 </div>
             </section>            
         </main>
     </div>
     
+    <!-- Script for handling the UI logic, AJAX requests, etc. -->
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

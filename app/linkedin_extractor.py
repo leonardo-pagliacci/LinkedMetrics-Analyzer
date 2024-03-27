@@ -3,13 +3,12 @@ import json
 from linkedin_api import Linkedin
 from urllib.parse import urlparse, unquote
 from dotenv import load_dotenv
-import requests
-from base64 import b64encode
+
 
 # Load environment variables from a .env file
 load_dotenv()
 
-# Logging 
+# Retrieves LinkedIn credentials from environment variables and initializes the LinkedIn API client with these credentials.
 linkedin_username = os.getenv("LINKEDIN_USERNAME")
 linkedin_password = os.getenv("LINKEDIN_PASSWORD")
 api = Linkedin(linkedin_username, linkedin_password)
@@ -64,7 +63,6 @@ def linkedin_profile_extractor(profile_url):
         - 'languages': A list of languages listed on the profile.
         - 'projects': A list of dictionaries, each representing a project entry.
         - 'skills': A list of skills listed on the profile.
-        - 'profilePictureUrl': profile image url
     """
     
     # Extract the LinkedIn ID from the URL using the refined extraction function
@@ -86,8 +84,6 @@ def linkedin_profile_extractor(profile_url):
         'languages': profile.get('languages', 'No languages listed'),
         'projects': [],
         'skills': [],
-        'profilePictureUrl': None
-
     }
 
     # Streamline experience details
@@ -130,21 +126,8 @@ def linkedin_profile_extractor(profile_url):
     # Extract skills using the LinkedIn ID
     skills = api.get_profile_skills(linkedin_id)
     extracted_info['skills'] = [skill['name'] for skill in skills] if skills else 'No skills listed'
-    
-    # Extract the highest profile image resolution
-    if 'displayPictureUrl' in profile:
-        base_url = profile['displayPictureUrl']
-        # Directly check for the presence of each key in priority order
-        image_keys = ['img_800_800', 'img_400_400', 'img_200_200', 'img_100_100']
-        for key in image_keys:
-            if key in profile:
-                extracted_info['profilePictureUrl'] = base_url + profile[key]
-                break 
 
     return extracted_info
-
-
-from urllib.parse import urlparse, unquote
 
 def extract_linkedin_job_id(job_url):
     
@@ -215,8 +198,7 @@ def extract_linkedin_company_id(company_url):
     decoded_url = unquote(company_url)
     path = urlparse(decoded_url).path
     path_parts = path.strip("/").split("/")
-    
-    # Assuming the URL format is https://www.linkedin.com/company/[company-id]/
+
     company_id = path_parts[-1] if path_parts[-2] == 'company' else None
     return company_id
 

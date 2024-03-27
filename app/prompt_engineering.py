@@ -23,6 +23,7 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 linkedin_username = os.getenv("LINKEDIN_USERNAME")
 linkedin_password = os.getenv("LINKEDIN_PASSWORD")
 openai_api_key = os.getenv("OPENAI_API_KEY")
+
 if not all([linkedin_username, linkedin_password, openai_api_key]):
     raise ValueError("Missing required credentials.")
 
@@ -94,7 +95,7 @@ def upload_resume_and_analyze(file):
         
         # Assuming 'client' is an initialized OpenAI client
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo-0125",
+            model="gpt-4-turbo-preview",
             response_format={"type": "json_object"},
             messages=[
                 {"role": "system", "content": "You are a helpful HR analytics assistant designed to output JSON."},
@@ -153,7 +154,6 @@ def analyze_linkedin_profile(profile_dict):
         "geoLocationName": "Specific geographical location of the most recent or current position.",
         "industries": ["List of industries related to the most recent or current position."]
       }},
-      "profilePictureUrl": "URL to the profile picture.",
       "languages": ["List of languages the individual speaks, along with proficiency levels if available. Find the native language if not provided"],
       "hardSkills": ["List of hard skills relevant to their field and position."],
       "softSkills": ["List of soft skills that highlight interpersonal and professional competencies. Translate them to english if necessary. If not directly provided, find them on the summary and about section "],
@@ -165,7 +165,7 @@ def analyze_linkedin_profile(profile_dict):
   '''
 
     response = client.chat.completions.create(
-      model="gpt-3.5-turbo-0125",
+      model="gpt-4-turbo-preview",
       response_format={ "type": "json_object" },
       messages=[
         {"role": "system", "content": "You are a helpful HR analytics assistant designed to output JSON."},
@@ -225,7 +225,7 @@ def analyze_linkedin_jd(jd_dict):
     The analysis should maintain a professional tone, be comprehensive, and adhere closely to the JSON schema provided, ensuring that all sections are filled with relevant and insightful information.
     '''
     response = client.chat.completions.create(
-    model="gpt-3.5-turbo-0125",
+    model="gpt-4-turbo-preview",
     response_format={ "type": "json_object" },
     messages=[
       {"role": "system", "content": "You are a helpful HR analytics assistant designed to output JSON."},
