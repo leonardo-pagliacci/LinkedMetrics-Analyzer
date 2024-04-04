@@ -1,4 +1,14 @@
+![logo_ironhack_blue 7](https://user-images.githubusercontent.com/23629340/40541063-a07a0a8a-601a-11e8-91b5-2f13e4e6b441.png)
+
+# Ironhack Data Analytics & Machine Learning Bootcamp 2024 - Final Project
+Welcome to my GitHub repository showcasing the final project I completed as part of the Data Analytics & Machine Learning bootcamp at Ironhack, where I underwent six months of intensive training in data analytics, mastering foundational skills, programming proficiency, machine learning techniques, and project-based learning.
+
+The culmination of this bootcamp is showcased in my final project, where I tackled a real-world problem using the skills and techniques acquired throughout the course.
+
+
 # LinkedMetrics Analyzer 
+
+<img width="941" alt="Screenshot 2024-04-04 at 12 31 06" src="https://github.com/leonardo-pagliacci/LinkedMetrics-Analyzer/assets/110601781/8be886c2-736f-404e-bf2f-1b6858db09ad">
 
 ## Overview
 
@@ -10,6 +20,11 @@ LinkedMetrics Analyzer is a groundbreaking web application crafted within the Fl
 - **Job Description Insights:** Extracts critical information from LinkedIn job postings, providing an overview of job requirements and company details.
 - **Resume Analysis:** Analyzes resume PDFs and structures the information for LinkedIn profile enhancement or job application purposes.
 - **Compatibility Assessment:** Evaluates compatibility between LinkedIn profiles and job descriptions, offering a scored assessment based on various criteria.
+
+
+<img width="1262" alt="Screenshot 2024-04-04 at 12 17 47" src="https://github.com/leonardo-pagliacci/LinkedMetrics-Analyzer/assets/110601781/9d8b1348-0fa3-4e61-a1ca-8fbfe426181b">
+
+  
 
 ## Project Structure
 
