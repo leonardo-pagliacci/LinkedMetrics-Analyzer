@@ -6,9 +6,7 @@ Welcome to my GitHub repository showcasing the final project I completed as part
 The culmination of this bootcamp is showcased in my final project, where I tackled a real-world problem using the skills and techniques acquired throughout the course.
 
 
-# LinkedMetrics Analyzer 
-
-<img width="941" alt="Screenshot 2024-04-04 at 12 31 06" src="https://github.com/leonardo-pagliacci/LinkedMetrics-Analyzer/assets/110601781/8be886c2-736f-404e-bf2f-1b6858db09ad">
+# LinkedMetrics Analyzer
 
 ## Overview
 
@@ -21,10 +19,7 @@ LinkedMetrics Analyzer is a groundbreaking web application crafted within the Fl
 - **Resume Analysis:** Analyzes resume PDFs and structures the information for LinkedIn profile enhancement or job application purposes.
 - **Compatibility Assessment:** Evaluates compatibility between LinkedIn profiles and job descriptions, offering a scored assessment based on various criteria.
 
-
-<img width="1262" alt="Screenshot 2024-04-04 at 12 17 47" src="https://github.com/leonardo-pagliacci/LinkedMetrics-Analyzer/assets/110601781/9d8b1348-0fa3-4e61-a1ca-8fbfe426181b">
-
-  
+<img width="1224" alt="Screenshot 2024-04-04 at 13 04 00" src="https://github.com/leonardo-pagliacci/LinkedMetrics-Analyzer/assets/110601781/22746c1f-df58-4f1e-b496-2d63a993b10e">
 
 ## Project Structure
 
